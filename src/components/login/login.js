@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useContext, useState } from "react";
 import {Link} from 'react-router-dom';
 import "./login.css";
 import history from "../services/history";
@@ -7,34 +7,36 @@ import Loading from "../loading/Loading";
 import axios from "axios";
 import { SERVER_URL } from "../helpers/constant";
 
-const initialState = {
-  email: "",
-  password: "",
-  loading: false,
-  message: "",
-  serverMessage: "",
-};
 
-//setup reducer user input (avoid too much useState hoks)
-const reducer = (state, { field, value }) => {
-  return { ...state, [field]: value };
-};
+
+// const dispatch = useDispatch();
+const {state, dispatch}=useContext(myContext);
+const {data, loading} = state;
 
 const Login = () => {
-  //use reducer hook to dispatch change action
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [message, setMessage] = useState("");
+const [serverMessage, setServerMessage] = useState("");
 
   //form input change
   const handleChange = (e) => {
-    dispatch({ field: e.target.name, value: e.target.value });
+    if(e.target.name === email){
+setEmail(e.target.value)
+    }
+    if(e.target.name === password){
+      setPassword(e.target.value);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+const state = {
+  password,
+  email
+}
     const url = SERVER_URL + "/login";
-    console.log(state);
-    dispatch({ field: "loading", value: true });
+    dispatch({ type: "SET_LOADING", payload: true });
     try {
       const response = await axios.post(url, state, {
         timeout: 30000,
@@ -44,16 +46,16 @@ const Login = () => {
         console.log(data);
         localStorage.setItem("userId", data.userId);
         localStorage.setItem("token", response.data.info.token);
-        dispatch({ field: "loading", value: false });
-        dispatch({ field: "serverMessage", value: response.data.message });
+        dispatch({ type: "SET_LOADING", payload: false });
+        setServerMessage(response.data.message)
       }
     } catch (error) {
       console.log(error);
-      dispatch({ field: "loading", value: false });
+      dispatch({ type: "SET_LOADING", payload: false });
     }
   };
 
-  const { message } = state;
+
 
   return (
     <div className="login">

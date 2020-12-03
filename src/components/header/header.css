@@ -14,7 +14,6 @@ header a {
     margin-right: 1rem;
     font-size: 1.4rem;
     color: var( --primary-color);
-
 }
 
 header a:hover {
@@ -36,8 +35,18 @@ margin: 0;
 
 }
 
+header .fa{
+    font-size: xx-large;
+}
+
+header .cart{
+    color: var( --primary-color);
+
+}
+
 .user-area{
 
 }
+
 
 
