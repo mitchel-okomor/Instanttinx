@@ -1,0 +1,1 @@
+React frontend for consuming API from petros-api. It was built with create-react-app. fetch Api and Axios was used for making http request.

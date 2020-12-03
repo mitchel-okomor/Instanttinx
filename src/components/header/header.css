@@ -1,0 +1,43 @@
+
+header{
+color: var( --primary-color);
+height: 5rem;
+padding: 1rem 1rem 0rem 1rem;
+font-weight: bold
+}
+
+header ul{
+    display: flex;
+}
+
+header a {
+    margin-right: 1rem;
+    font-size: 1.4rem;
+    color: var( --primary-color);
+
+}
+
+header a:hover {
+    margin-right: 1rem;
+    font-size: 1.4rem;
+    color: var( --primary-color);
+
+}
+
+header div{
+    display: inline-block;
+
+}
+.logo{
+font-size: 2em;
+font-weight: bolder;
+padding-left:2em;
+margin: 0;
+
+}
+
+.user-area{
+
+}
+
+

@@ -1,0 +1,21 @@
+nav{
+background-color: var(  --primary-color);
+height: 4rem;
+}
+
+nav ul{
+    float: right;
+    display: flex;
+    list-style-type: none;
+}
+
+nav ul li{
+margin-right: 1rem;
+padding: 0.5rem;
+
+}
+nav a{
+    color: var(--light-color);
+    font-size: 1.6rem
+
+}
