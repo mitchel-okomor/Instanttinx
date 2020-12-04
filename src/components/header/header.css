@@ -35,9 +35,15 @@ margin: 0;
 
 }
 
+.logo img{
+    width: 30%;
+}
+
 header .fa{
     font-size: xx-large;
 }
+
+
 
 header .cart{
     color: var( --primary-color);

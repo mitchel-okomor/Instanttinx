@@ -1,9 +1,8 @@
-import React, { useReducer, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import {Link} from 'react-router-dom';
 import {myContext} from '../../App';
 import "./login.css";
 import history from "../services/history";
-import checkLogin from "../helpers/checkLoggin";
 import Loading from "../loading/Loading";
 import axios from "axios";
 import { SERVER_URL } from "../helpers/constant";
@@ -15,12 +14,11 @@ import { SERVER_URL } from "../helpers/constant";
 const Login = () => {
 // const dispatch = useDispatch();
 const {state, dispatch}=useContext(myContext);
-const {data, user, loading} = state;
+const {loading} = state;
 
   const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
 const [message, setMessage] = useState("");
-const [serverMessage, setServerMessage] = useState("");
 
   //form input change
   const handleChange = (e) => {
@@ -52,7 +50,6 @@ const state = {
         localStorage.setItem("token", response.data.info.token);
         dispatch({ type: "SET_USER", payload: data });
         dispatch({ type: "SET_LOADING", payload: false });
-        setServerMessage(response.data.message);
         history.push("/")
       }
 if(response.status === 401){

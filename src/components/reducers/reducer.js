@@ -27,7 +27,7 @@ export const reducer = (state = initialState, action)=>{
             cart: action.payload
         }
        
-       
+       default:
     }
 
     return state;

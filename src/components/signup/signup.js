@@ -1,4 +1,4 @@
-import React, {useState, useReducer, useContext} from "react";
+import React, {useState,  useContext} from "react";
 import {myContext} from '../../App';
 import {Link} from 'react-router-dom';
 import './signup.css';
@@ -19,14 +19,13 @@ const [phone, setPhone] = useState("");
 const [password, setPassword] = useState("");
 const [confirm, setConfirm] = useState("");
 const [message, setMessage] = useState("");
-const [serverMessage, setServerMessage] = useState("");
 
 
 
 
   // const dispatch = useDispatch();
 const {state, dispatch}=useContext(myContext);
-const {data, user, loading} = state;
+const { loading} = state;
 
 //form input change
 const handleChange = (e) => {
@@ -55,9 +54,9 @@ case "password":
   setPassword(e.target.value);
   break;
 
-case "confirm":
+default:
   setConfirm(e.target.value);
-break;
+
   }
 };
 
@@ -85,7 +84,7 @@ const state = {
   const response = await axios.post(url, state, {
     timeout: 30000
   });
-  if(response.status==200){
+  if(response.status===200){
     const data = response.data.data;
    console.log(data);
    localStorage.setItem("userId", data.userId);
@@ -94,14 +93,12 @@ history.push('/');
    dispatch({type:SET_LOADING, payload:false}); 
    dispatch({type:SET_USER, payload:data})
    
-setServerMessage(response.data.message);
 
   }
 }
   catch(error){
     console.log(error);
     dispatch({type:SET_LOADING, payload:false}); 
-    setServerMessage(error);
 
   }
 }

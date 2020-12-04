@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import checkLogin from '../helpers/checkLoggin';
+import checkLogin from '../helpers/checkLogin';
 import history from './history';
 
 

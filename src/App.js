@@ -13,6 +13,7 @@ import Navigation from "./components/navigation/navigation";
 import Footer from "./components/footer/footer";
 import Header from "./components/header/header";
 import About from "./components/about/about";
+import NotFound from "./components/notfound/notfound";
 
 // const store = createStore(reducer);
 export const myContext = createContext();
@@ -28,11 +29,12 @@ function App() {
         <Navigation />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/admin" component={Admin} />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/edit/:id" component={Edit} />
-          <Route path="/about" component={About} />
+          <Route exact path="/admin" component={Admin} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/edit/:id" component={Edit} />
+          <Route exact path="/about" component={About} />
+          <Route component={NotFound} />
         </Switch>
         <Footer />
       </div>
