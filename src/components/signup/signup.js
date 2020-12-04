@@ -1,53 +1,86 @@
-import React, {useState, useReducer} from "react";
+import React, {useState, useReducer, useContext} from "react";
+import {myContext} from '../../App';
 import {Link} from 'react-router-dom';
 import './signup.css';
+import history from "../services/history";
 import axios from 'axios';
-import {SERVER_URL} from '../helpers/constant';
+import {SERVER_URL, SET_LOADING, SET_USER} from '../helpers/constant';
+import Loading from "../loading/Loading";
 
 
 
-const initialState = {
-  firstname: "",
-lastname: "",
-username: "",
-email: "",
-phone: "",
-password: "",
-confirm:"",
-loading: false,
-message: "",
-serverMessage: ""
-};
-
-//setup reducer user input (avoid too much useState hoks)
-const reducer = (state, { field, value }) => {
-return { ...state, [field]: value  };
-};
 
 const Signup = () => {
-  
-//use reducer hook to dispatch change action
-const [state, dispatch] = useReducer(reducer, initialState);
+const [firstname, setFirstName] = useState("");
+const [lastname, setLastName] = useState("");
+const [username, setUserName] = useState("");
+const [email, setEmail] = useState("");
+const [phone, setPhone] = useState("");
+const [password, setPassword] = useState("");
+const [confirm, setConfirm] = useState("");
+const [message, setMessage] = useState("");
+const [serverMessage, setServerMessage] = useState("");
+
+
+
+
+  // const dispatch = useDispatch();
+const {state, dispatch}=useContext(myContext);
+const {data, user, loading} = state;
 
 //form input change
 const handleChange = (e) => {
-dispatch({ field: e.target.name, value: e.target.value });
+  switch(e.target.name){
+case "firstname":
+  setFirstName(e.target.value);
+  break;
+
+case "lastname":
+    setLastName(e.target.value);
+    break;
+
+case "username":
+  setUserName(e.target.value);
+  break;
+
+case "email":
+  setEmail(e.target.value);
+  break;
+
+case "phone":
+  setPhone(e.target.value);
+  break;
+
+case "password":
+  setPassword(e.target.value);
+  break;
+
+case "confirm":
+  setConfirm(e.target.value);
+break;
+  }
 };
 
 
 const handleSubmit = async (e)=>{
   e.preventDefault();
-  const{password, confirm, message} = state;
   if(password !== confirm){
-    console.log("not match")
-    dispatch({field:"message", value:"Password do not match!"})
+    console.log("not match");
+    setMessage("Password do not match!");
     return;
   }
-
+const state = {
+  firstname,
+  lastname,
+  username,
+  email,
+  phone,
+  password
+}
 
   const url = SERVER_URL+'/signup';
   console.log(state);
-  dispatch({field:"loading", value:true}); 
+  dispatch({type:SET_LOADING, payload:true}); 
   try{
   const response = await axios.post(url, state, {
     timeout: 30000
@@ -56,20 +89,28 @@ const handleSubmit = async (e)=>{
     const data = response.data.data;
    console.log(data);
    localStorage.setItem("userId", data.userId);
-dispatch({field:"loading", value:false}); 
-dispatch({field:"serverMessage", value:response.data.message}); 
+   localStorage.setItem("token", response.data.token);
+history.push('/');
+   dispatch({type:SET_LOADING, payload:false}); 
+   dispatch({type:SET_USER, payload:data})
+   
+setServerMessage(response.data.message);
 
   }
 }
   catch(error){
     console.log(error);
-    dispatch({field:"loading", value:false}); 
+    dispatch({type:SET_LOADING, payload:false}); 
+    setServerMessage(error);
+
   }
 }
 
-const {message} = state;
+if(loading){
+  return <div className="signup-form mt-5 pt-5"><Loading /> </div>
+}
   return (
-    <div className="container-fluid mt-5  pt-5 signup ">
+    <div className="container-fluid mt-5  pt-5 signup signup-form ">
       <div className="row d-flex justify-content-center ">
         <form onSubmit={handleSubmit} className="bg-white form-group shadow mb-5">
           <div className="pt-5 pb-5">

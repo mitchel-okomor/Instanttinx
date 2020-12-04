@@ -1,5 +1,6 @@
-.login{
+.login-form{
   background-color: inherit;
+  min-height: 100vh;
 }
 
 .login input{
@@ -22,7 +23,6 @@
 }
 
 .login  a{
-
   color: var(--light-color);
   font-size: 1.2rem;
 font-weight: bold;

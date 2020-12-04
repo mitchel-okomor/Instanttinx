@@ -1,5 +1,6 @@
 import React, { useReducer, useContext, useState } from "react";
 import {Link} from 'react-router-dom';
+import {myContext} from '../../App';
 import "./login.css";
 import history from "../services/history";
 import checkLogin from "../helpers/checkLoggin";
@@ -9,11 +10,13 @@ import { SERVER_URL } from "../helpers/constant";
 
 
 
-// const dispatch = useDispatch();
-const {state, dispatch}=useContext(myContext);
-const {data, loading} = state;
+
 
 const Login = () => {
+// const dispatch = useDispatch();
+const {state, dispatch}=useContext(myContext);
+const {data, user, loading} = state;
+
   const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
 const [message, setMessage] = useState("");
@@ -21,12 +24,13 @@ const [serverMessage, setServerMessage] = useState("");
 
   //form input change
   const handleChange = (e) => {
-    if(e.target.name === email){
+    if(e.target.name === "email"){
 setEmail(e.target.value)
     }
-    if(e.target.name === password){
+    if(e.target.name === "password"){
       setPassword(e.target.value);
     }
+
   };
 
   const handleSubmit = async (e) => {
@@ -41,29 +45,40 @@ const state = {
       const response = await axios.post(url, state, {
         timeout: 30000,
       });
-      if (response.status == 200) {
+      if (response.status === 200) {
         const data = response.data.info.data;
-        console.log(data);
+        console.log(response);
         localStorage.setItem("userId", data.userId);
         localStorage.setItem("token", response.data.info.token);
+        dispatch({ type: "SET_USER", payload: data });
         dispatch({ type: "SET_LOADING", payload: false });
-        setServerMessage(response.data.message)
+        setServerMessage(response.data.message);
+        history.push("/")
       }
+if(response.status === 401){
+  console.log("401")
+  setMessage("Incorrect username or password")
+  dispatch({ type: "SET_LOADING", payload: false });
+}
     } catch (error) {
       console.log(error);
+      setMessage("Incorrect username or password")
       dispatch({ type: "SET_LOADING", payload: false });
     }
   };
 
-
-
+  if(loading){
+    return <div className="login-form mt-5 pt-5"><Loading /> </div>
+  }
   return (
-    <div className="login">
+    <div className="login login-form">
       <div class="container-fluid mt-5  pt-5 login ">
         <div class="row d-flex justify-content-center ">
           <form onSubmit={handleSubmit} class="bg-white form-group shadow mb-5">
-            <div class="py-5">
+  
+           <div class="py-5">
               <h1 class="text-center">Sign In</h1>
+              <div className="login-message text-danger text-center">{message}</div>
               <div class="input-group mt-4 ml-4 mr-4 mb-2">
                 <div class="input-group-prepend">
                   <div class="input-group-text bg-white">

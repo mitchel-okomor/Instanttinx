@@ -1,5 +1,6 @@
-.signup{
+.signup-form{
     background-color: inherit;
+    min-height: 100vh;
 }
 
 .signup input{
