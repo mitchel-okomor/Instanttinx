@@ -29,11 +29,11 @@ function App() {
         <Navigation />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/admin" component={Admin} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/edit/:id" component={Edit} />
-          <Route exact path="/about" component={About} />
+          <Route  path="/admin" component={Admin} />
+          <Route  path="/login" component={Login} />
+          <Route  path="/signup" component={Signup} />
+          <Route  path="/edit/:id" component={Edit} />
+          <Route  path="/about" component={About} />
           <Route component={NotFound} />
         </Switch>
         <Footer />
