@@ -16,6 +16,7 @@ const [lastname, setLastName] = useState("");
 const [username, setUserName] = useState("");
 const [email, setEmail] = useState("");
 const [phone, setPhone] = useState("");
+const [role, setRole] = useState("");
 const [password, setPassword] = useState("");
 const [confirm, setConfirm] = useState("");
 const [message, setMessage] = useState("");
@@ -50,6 +51,10 @@ case "phone":
   setPhone(e.target.value);
   break;
 
+case "role":
+  setRole(e.target.value);
+  break;
+
 case "password":
   setPassword(e.target.value);
   break;
@@ -74,6 +79,7 @@ const state = {
   username,
   email,
   phone,
+  role,
   password
 }
 
@@ -85,14 +91,12 @@ const state = {
     timeout: 30000
   });
   if(response.status===200){
-    const data = response.data.data;
-   console.log(data);
-   localStorage.setItem("userId", data.userId);
+    const user = response.data.data;
+   localStorage.setItem("userId", user.userId);
    localStorage.setItem("token", response.data.token);
-history.push('/');
    dispatch({type:SET_LOADING, payload:false}); 
-   dispatch({type:SET_USER, payload:data})
-   
+   dispatch({type:SET_USER, payload:user})
+user.role === "planner" ? history.push('/admin'):   history.push('/');
 
   }
 }
@@ -228,6 +232,23 @@ if(loading){
                   maxLength="13"
                   onChange={handleChange}
                 />
+              </div>
+            </div>
+            <div className="from-group mt-4 ml-4 mb-2">
+              <label for="phone">
+                Sign up as: 
+              </label>
+              <br />
+              <div className="input-group ">
+                <div className="input-group-prepend">
+                  <div className="input-group-text bg-white">
+                  <i class="fa fa-id-card" aria-hidden="true"></i>
+                  </div>
+                </div>
+                <select name="role" id="role" className="form-control" onChange={handleChange}>
+  <option value="attandee">Attandee</option>
+  <option value="planner">Event planner</option>
+</select>
               </div>
             </div>
             <div className="from-group mt-4 ml-4  mb-2">

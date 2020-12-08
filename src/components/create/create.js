@@ -41,6 +41,7 @@ const handleChange = (e)=>{
             break;
         case "image":
             setImage(e.target.files[0]);
+            break;
         default:
             setTime(e.target.time)
     }

@@ -44,13 +44,14 @@ const state = {
         timeout: 30000,
       });
       if (response.status === 200) {
-        const data = response.data.info.data;
+        const user = response.data.info.data;
         console.log(response);
-        localStorage.setItem("userId", data.userId);
+        localStorage.setItem("userId", user.userId);
         localStorage.setItem("token", response.data.info.token);
-        dispatch({ type: "SET_USER", payload: data });
+        dispatch({ type: "SET_USER", payload: user });
         dispatch({ type: "SET_LOADING", payload: false });
-        history.push("/")
+        console.log(user.role)
+        user.role === "planner" ? history.push('/admin'):   history.push('/');
       }
 if(response.status === 401){
   console.log("401")

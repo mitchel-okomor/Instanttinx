@@ -1,8 +1,47 @@
-import React from 'react';
+import React, {useEffect, useContext} from 'react';
 import { Link } from 'react-router-dom';
 import './dashboard.css';
+import Table from './table';
+import axios from 'axios';
+import { SERVER_URL, SET_USER_EVENTS, SET_LOADING } from "../helpers/constant";
+import {myContext} from '../../App';
+import Loading from '../loading/Loading';
+
 
 function Dashboard() {
+  const {state, dispatch}=useContext(myContext);
+const {loading, user} = state;
+
+useEffect(()=>{
+fetchEvents();
+},[])
+
+const fetchEvents = async ()=>{
+  const url = SERVER_URL + "/events/" + localStorage.getItem("userId");
+    dispatch({ type: SET_LOADING, payload: true });
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          "Authorization": localStorage.getItem('token')
+      },
+        timeout: 30000,
+      });
+      if (response.status === 200) {
+        const events = response.data;
+        console.log("Events: "+JSON.stringify(events));
+        dispatch({ type: SET_USER_EVENTS, payload: events });
+        dispatch({ type: SET_LOADING, payload: false });
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: SET_LOADING, payload: false });
+    }
+  };
+
+
+if(loading){
+  return <Loading />
+}
     return (
         <div className="dashboard"> 
             <h3 className="m-3">Dashboard</h3>
@@ -40,7 +79,9 @@ function Dashboard() {
                      </div>
                      </div>  
                    </div> 
-               <div className="d-details"></div>
+               <div className="d-details">
+             <Table />
+               </div>
             </div>
         </div>
     )
