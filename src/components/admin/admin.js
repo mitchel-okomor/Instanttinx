@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import './admin.css';
 import withAuth from '../services/withAuth';
 import { Link, Route, Switch, useParams, useRouteMatch } from "react-router-dom";
@@ -6,10 +6,44 @@ import Dashboard from '../dashboard/dashboard';
 import Adminevents from '../adminevents/adminevents';
 import Create from '../create/create';
 import History from '../services/history';
+import axios from 'axios';
+import { SERVER_URL, SET_USER_EVENTS, SET_LOADING } from "../helpers/constant";
+import {myContext} from '../../App';
 
 
 const Admin = () =>{
     const { url, path } = useRouteMatch();
+
+
+    const {state, dispatch}=useContext(myContext);
+    const {loading, userEvents} = state;
+    
+    useEffect(()=>{
+    fetchEvents();
+    },[])
+    
+    const fetchEvents = async ()=>{
+      const url = SERVER_URL + "/events/" + localStorage.getItem("userId");
+        dispatch({ type: SET_LOADING, payload: true });
+        try {
+          const response = await axios.get(url, {
+            headers: {
+              "Authorization": localStorage.getItem('token')
+          },
+            timeout: 30000,
+          });
+          if (response.status === 200) {
+            const events = response.data;
+            console.log("Events: "+events);
+            dispatch({ type: SET_USER_EVENTS, payload: events});
+            dispatch({ type: SET_LOADING, payload: false });
+          }
+        } catch (error) {
+          console.log(error);
+          dispatch({ type: SET_LOADING, payload: false });
+        }
+      };
+    
 
 
     return (<div className="admin">

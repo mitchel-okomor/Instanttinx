@@ -2,7 +2,7 @@ import {SET_CART, SET_LOADING, SET_USER, SET_USER_EVENTS} from '../helpers/const
 
 export const initialState = {
     user:"",
-    userEvents:"",
+    userEvents:[],
     cart: [],
     loading: false
 }

@@ -26,6 +26,7 @@ const [image, setImage] = useState('');
 const [message, setMessage] = useState('');
 
 const handleChange = (e)=>{
+  
     switch(e.target.name){
         case "title":
             setTitle(e.target.value);
@@ -37,13 +38,13 @@ const handleChange = (e)=>{
             setVenue(e.target.value);
             break;
         case "date":
-            setDate(e.target.date);
+            setDate(e.target.value);
             break;
         case "image":
             setImage(e.target.files[0]);
             break;
         default:
-            setTime(e.target.time)
+            setTime(e.target.value)
     }
 
 }
