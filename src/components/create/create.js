@@ -1,10 +1,10 @@
 import React, {useState, useContext} from 'react'
-
+import './create.css';
 import {myContext} from '../../App';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import history from "../services/history";
 import axios from 'axios';
-import {SERVER_URL, SET_LOADING, SET_USER} from '../helpers/constant';
+import {SERVER_URL, SET_LOADING, SET_USER_EVENTS} from '../helpers/constant';
 import Loading from "../loading/Loading";
 
 
@@ -12,9 +12,10 @@ import Loading from "../loading/Loading";
 
 
 function Create() {
+  let { _id } = useParams();
   // const dispatch = useDispatch();
   const {state, dispatch}=useContext(myContext);
-  const { loading, user} = state;
+  const { loading, user, userEvents} = state;
 
 
 const [title, setTitle] = useState('');
@@ -61,8 +62,8 @@ formData.append("time", time);
 formData.append("image", image);
 formData.append("userId", user._id);
 
-    const url = SERVER_URL + "/event";
-    dispatch({ type: "SET_LOADING", payload: true });
+    const url = SERVER_URL + "/api/event";
+    dispatch({ type: SET_LOADING, payload: true });
     try {
       const response = await axios.post(url, formData,{
         headers: {
@@ -71,45 +72,52 @@ formData.append("userId", user._id);
         timeout: 30000,
       });
       if (response.status === 200) {
-        console.log(response);
-        dispatch({ type: "SET_LOADING", payload: false });
-        history.push("/admin");
+        console.log(response.data.data);
+        const data =response.data.data ;
+        console.log("create: "+ data);
+      userEvents.push(data);
+        dispatch({ type: SET_LOADING, payload: false });
+        dispatch({type:SET_USER_EVENTS, payload: userEvents })
+        console.log(userEvents);
+        history.goBack();
       }
     } catch (error) {
       console.log(error);
       setMessage("failed to save ")
-      dispatch({ type: "SET_LOADING", payload: false });
+      dispatch({ type: SET_LOADING, payload: false });
     }
   };
 
-if(loading){
- return <Loading />
+
+if (loading) {
+  return <Loading />
 }
     return (
-        <div>
+        <div className="d-flex justify-content-center mt-5 pt-5">
          <form onSubmit={handleSubmit}> 
+         <h2 className="mb-5">Create Event</h2> <br/>
              <div>
-            <label for="title">Event Title:</label><br />
+            <label htmlFor="title">Event Title:</label><br />
             <input type="text" name="title" id="title" onChange={handleChange}/>
              </div>
              <div>
-            <label for="description">Description:</label><br />
+            <label htmlFor="description">Description:</label><br />
             <textarea type="text" name="description" id="description" onChange={handleChange}/>
              </div>
              <div>
-            <label for="venue">Venue:</label><br />
+            <label htmlFor="venue">Venue:</label><br />
             <input type="text" name="venue" id="venue" onChange={handleChange}/>
              </div>
              <div>
-            <label for="date">Date:</label><br />
+            <label htmlFor="date">Date:</label><br />
             <input type="date" name="date" id="date" onChange={handleChange}/>
              </div>
              <div>
-            <label for="time">Time:</label><br />
+            <label htmlFor="time">Time:</label><br />
             <input type="time" name="time" id="time" onChange={handleChange}/>
              </div>
              <div>
-            <label for="image">Event Flyer:</label> <br />
+            <label htmlFor="image">Event Flyer:</label> <br />
             <input type="file" name="image" id="image" onChange={handleChange}/>
              </div>
              <div>

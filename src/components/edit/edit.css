@@ -1,8 +1,5 @@
-.edit-news-panel{
-  padding-top: 20px;
-    text-align: center;
-    margin: auto;
-   
+.edit-image img{
+  width: 50%;
 }
 
 .heading a{

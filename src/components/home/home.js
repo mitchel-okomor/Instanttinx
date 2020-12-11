@@ -1,7 +1,17 @@
-import React from "react";
+import React, {useContext} from "react";
 import "./home.css";
+import history from "../services/history";
+import {myContext} from '../../App';
+
 
 const Home = () => {
+
+// const dispatch = useDispatch();
+const {state}=useContext(myContext);
+const {user} = state;
+if(user.role === "planner"){
+  history.push("/admin/dashboard");
+}
   return (
     <main>
       <div className="home">

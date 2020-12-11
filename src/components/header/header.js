@@ -25,7 +25,7 @@ useEffect(()=>{
 //fetch user info when app starts
 const fetchUser = async () => {
 
-  const url = SERVER_URL + "/user/" +id;
+  const url = SERVER_URL + "/api/user/" +id;
   try {
     const response = await axios.get(url,{
       headers: {

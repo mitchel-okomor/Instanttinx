@@ -1,17 +1,44 @@
 import React, {useEffect, useContext} from 'react'
 import './table.css'
+import {Link} from "react-router-dom"
 import {myContext} from '../../App';
 import Loading from '../loading/Loading';
+import { SERVER_URL, SET_LOADING, SET_USER_EVENTS } from "../helpers/constant";
+
 
 
 function Table() {
 
 
-  const {state}=useContext(myContext);
+  const {state, dispatch}=useContext(myContext);
   const {loading, userEvents} = state;
   
+ const handleDelete = (id)=> {
+  const url = SERVER_URL + "/api/event/"+  id
+  dispatch({type:SERVER_URL, payload: true});
+fetch(url, {
+  method: "delete",
+  headers: {
+    "Authorization": localStorage.getItem('token')
+}
+})
+.then((res)=>{
+  if(res.status === 200);
+console.log(res);
+const index = userEvents.findIndex(item => item._id === id);
+userEvents.splice(index,1);
+dispatch({type:SET_USER_EVENTS, payload:userEvents});
+dispatch({type:SERVER_URL, payload: false});
+
+})
+.catch((err=>{
+  console.log(err);
+  dispatch({type:SERVER_URL, payload: false});
+
+}))
+}
  
- 
+
 console.log(userEvents);
 if(loading){
   return <Loading />
@@ -33,15 +60,15 @@ if(loading){
     </tr> 
   </thead>
   <tbody>
-{userEvents.map(({title, venue, date, _id, isApproved, isPublished})=>{
+{userEvents.map(({title, venue, date, _id, isApproved,  isPublished}, index)=>{
 return  <tr key={_id}>
-      <th scope="row">1</th>
+      <th scope="row">{index+1}</th>
 <td>{title}</td>
 <td>{venue}</td>
 <td>{date}</td>
-<td className="font-weigth-bold">{isApproved?"Approved":"Pending Approval"}</td>
-<td>{isPublished?"published" : "Drafted"}</td>
-<td><span><button className="btn btn-primary">Edit</button ></span> <span><button className="btn btn-danger">Delete</button></span> {!isPublished? <span><button className="btn btn-secondary">Publish</button></span>:""}</td>
+<td className="font-weigth-bold">{isApproved ==="true"?"Approved":"Pending Approval"}</td>
+<td>{isPublished ==="true"?"published" : "Drafted"}</td>
+<td><span><Link className="btn btn-primary" to={`/admin/edit-event/${_id}`}>Edit</Link ></span> <span><button className="btn btn-danger" onClick={()=>{handleDelete(_id)}}>Delete</button></span> {isPublished ==="false"? <span><button className="btn btn-secondary">Publish</button></span>:<span><button className="btn btn-secondary" >Withdraw</button></span>}</td>
     </tr>
 })}
     

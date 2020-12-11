@@ -1,32 +1,35 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import checkLogin from '../helpers/checkLogin';
 import history from './history';
+import {myContext} from '../../App';
 
 
 const withAuth = AuthComponent => {
-  return class AuthWrapped extends Component {
-    constructor () {
-      super()
-      this.state = {
-        isAutenticated: false,
-      };
-    }
+
+
+
+   const AuthWrapped =() => {
+    const {state}=useContext(myContext);
+const { user} = state;
     
-    componentDidMount () {
+  const[  isAuthenticated, setIsAuthenticated]=useState(false)
+    
+    
+    
+  useEffect(()=>{
       //check if it's still authenticated
       const isConfirmed = checkLogin ();
 
-      if (!isConfirmed) {
+      if (!isConfirmed && user.length < 1) {
         history.push ('/login');
+        window.location.reload();
       } else {
-        this.setState ({
-          isAutenticated: true,
-        });
+       setIsAuthenticated(true);
       }
     }
-
-    render () {
-      if (this.state.isAutenticated) {
+)  
+   
+      if (isAuthenticated) {
         return (
           /* component that is currently being wrapper(App.js) */
           <AuthComponent />
@@ -34,7 +37,9 @@ const withAuth = AuthComponent => {
       } else {
         return null;
       }
-    }
+    
   };
+
+  return AuthWrapped;
 };
 export default withAuth;

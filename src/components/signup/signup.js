@@ -83,7 +83,7 @@ const state = {
   password
 }
 
-  const url = SERVER_URL+'/signup';
+  const url = SERVER_URL+'/api/signup';
   console.log(state);
   dispatch({type:SET_LOADING, payload:true}); 
   try{
@@ -96,7 +96,7 @@ const state = {
    localStorage.setItem("token", response.data.token);
    dispatch({type:SET_LOADING, payload:false}); 
    dispatch({type:SET_USER, payload:user})
-user.role === "planner" ? history.push('/admin'):   history.push('/');
+user.role === "planner" ? history.push('/admin/dashboard'):   history.push('/');
 
   }
 }

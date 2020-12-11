@@ -37,7 +37,7 @@ const state = {
   password,
   email
 }
-    const url = SERVER_URL + "/login";
+    const url = SERVER_URL + "/api/login";
     dispatch({ type: "SET_LOADING", payload: true });
     try {
       const response = await axios.post(url, state, {
@@ -46,12 +46,12 @@ const state = {
       if (response.status === 200) {
         const user = response.data.info.data;
         console.log(response);
-        localStorage.setItem("userId", user.userId);
+        localStorage.setItem("userId", user._id);
         localStorage.setItem("token", response.data.info.token);
         dispatch({ type: "SET_USER", payload: user });
         dispatch({ type: "SET_LOADING", payload: false });
         console.log(user.role)
-        user.role === "planner" ? history.push('/admin'):   history.push('/');
+        user.role === "planner" ? history.push('/admin/dashboard'):   history.push('/');
       }
 if(response.status === 401){
   console.log("401")

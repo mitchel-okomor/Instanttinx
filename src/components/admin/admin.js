@@ -9,6 +9,7 @@ import History from '../services/history';
 import axios from 'axios';
 import { SERVER_URL, SET_USER_EVENTS, SET_LOADING } from "../helpers/constant";
 import {myContext} from '../../App';
+import Edit from '../edit/edit';
 
 
 const Admin = () =>{
@@ -16,14 +17,14 @@ const Admin = () =>{
 
 
     const {state, dispatch}=useContext(myContext);
-    const {loading, userEvents} = state;
+    const {loading, userEvents, user} = state;
     
     useEffect(()=>{
     fetchEvents();
     },[])
     
     const fetchEvents = async ()=>{
-      const url = SERVER_URL + "/events/" + localStorage.getItem("userId");
+      const url = SERVER_URL + "/api/events/" + localStorage.getItem("userId");
         dispatch({ type: SET_LOADING, payload: true });
         try {
           const response = await axios.get(url, {
@@ -52,7 +53,7 @@ const Admin = () =>{
     <div>
 <div className="dashboard-image px-4 ">
     <img src={require("../../images/dummy.jpg")} />
-    <h3 className="mt-2">John Doe</h3>
+    <h3 className="mt-2">{user.firstname} {user.lastname}</h3>
     <h5>Event Organiser</h5>
     <div className="row n-area ">
         <div className="col-6 notification py-2">
@@ -69,7 +70,7 @@ const Admin = () =>{
 <div className="side pt-5 ">
 <h4 className="mx-4 ">Navigation</h4>
 <ul className="px-3 ">
-<li><Link to={`${url}`}><i class="fa fa-tachometer" aria-hidden="true"></i>
+<li><Link to={`${url}/dashboard`}><i class="fa fa-tachometer" aria-hidden="true"></i>
 Dashboard</Link></li>
 <li><Link to={`${url}/events`}><i class="fa fa-th-large" aria-hidden="true"></i>
 All Events</Link></li>
@@ -87,9 +88,9 @@ completed Events</Link></li>
     <div className="col-md-9 col-lg-9 col-xl-9 col-sm-12 col-ms-12">
       <Switch>
           <Route path={`${path}/events`} component={Adminevents} />
-   
+          <Route path="/admin/edit-event/:_id" component={Edit} />
           <Route path="/admin/create-event" component={Create} />
-    <Route component={Dashboard} />
+    <Route path={`${path}/dashboard`} component={Dashboard} />
     </Switch>
     </div>
 </div>
