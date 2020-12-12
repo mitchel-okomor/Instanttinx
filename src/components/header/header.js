@@ -9,7 +9,7 @@ import {SERVER_URL, SET_USER} from '../helpers/constant';
 
 const Header = (props) => {
 const {state, dispatch}=useContext(myContext);
-const {user} = state;
+const {user, cart} = state;
 
 const id =localStorage.getItem('userId');
 
@@ -92,7 +92,7 @@ if(user.firstname){
             <ul>
             <li>
                 <Link to="/cart" className="cart"><i className="fa fa-cart-arrow-down" aria-hidden="true"></i>
-
+               {cart.legth >0 ?<span class='badge badge-warning' id='lblCartCount'> {cart.length} </span> : ""}
 </Link>
               </li>
               <li>

@@ -13,3 +13,10 @@ main img{
     margin: auto;
     text-align: center;
 }
+
+.current-events .card span{
+margin-right: 0.8rem;
+font-weight: 600;
+color: #e2ae49;
+}
+

@@ -1,8 +1,9 @@
-import {SET_CART, SET_LOADING, SET_USER, SET_USER_EVENTS} from '../helpers/constant';
+import {SET_CART, SET_LOADING, SET_USER, SET_USER_EVENTS, SET_TICKET_EVENTS} from '../helpers/constant';
 
 export const initialState = {
     user:"",
     userEvents:[],
+    ticketEvents:[],
     cart: [],
     loading: false
 }
@@ -32,6 +33,14 @@ export const reducer = (state = initialState, action)=>{
             ...state,
             userEvents: action.payload
         }
+
+        case SET_TICKET_EVENTS: 
+        return{
+            ...state,
+            ticketEvents: action.payload
+        }
+
+     
        default:
     }
 

@@ -50,9 +50,24 @@ header .cart{
 
 }
 
-.user-area{
+.badge {
+    padding-left: 9px;
+    padding-right: 9px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+  }
+  
 
-}
+  #lblCartCount {
+      font-size: 16px;
+      background: #fff;
+      border: 1px solid var( --primary-color);
+      color: var( --primary-color);
+      padding: 0 5px;
+      vertical-align: top;
+      margin-left: -10px; 
+  }
 
 
 

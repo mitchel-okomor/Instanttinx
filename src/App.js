@@ -14,6 +14,7 @@ import Footer from "./components/footer/footer";
 import Header from "./components/header/header";
 import About from "./components/about/about";
 import NotFound from "./components/notfound/notfound";
+import Eventdetails from "./components/event-details/event-details";
 
 // const store = createStore(reducer);
 export const myContext = createContext();
@@ -34,6 +35,7 @@ function App() {
           <Route  path="/signup" component={Signup} />
           <Route  path="/edit/:id" component={Edit} />
           <Route  path="/about" component={About} />
+          <Route path="/event/:id" component={Eventdetails} />
           <Route component={NotFound} />
         </Switch>
         <Footer />

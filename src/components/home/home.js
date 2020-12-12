@@ -1,18 +1,47 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import "./home.css";
 import history from "../services/history";
 import {myContext} from '../../App';
+import {Link} from "react-router-dom";
+import axios from "axios";
+import { SERVER_URL, SET_TICKET_EVENTS, SET_LOADING } from "../helpers/constant";
+
 
 
 const Home = () => {
 
 
 // const dispatch = useDispatch();
-const {state}=useContext(myContext);
-const {user} = state;
+const {state, dispatch}=useContext(myContext);
+const {user, ticketEvents, loading} = state;
+
+
+useEffect(()=>{
+fetchEvents();
+}, []);
+
+const fetchEvents = async ()=>{
+  const url = SERVER_URL + "/api/events"
+    dispatch({ type: SET_LOADING, payload: true });
+    try {
+      const response = await axios.get(url);
+      if (response.status === 200) {
+        const events = response.data;
+        console.log("Events: "+events);
+        dispatch({ type: SET_TICKET_EVENTS, payload: events});
+        dispatch({ type: SET_LOADING, payload: false });
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: SET_LOADING, payload: false });
+    }
+  };
+
 if(user.role === "planner"){
   history.push("/admin/dashboard");
 }
+
+
   return (
     <main>
       <div className="home">
@@ -59,14 +88,9 @@ if(user.role === "planner"){
           </div>
           <div className=" row mt-5 mb-3 pt-5 pb-5 intro">
             <div className="col-sm-6 col-lg-6 col-xl-6 col-xs-12">
-              <div className="mr-5">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+              <div className="mr-5 ">
+          <h1>Looking for your nearest events?</h1> 
+           <Link className="btn btn">See Events</Link>
               </div>
             </div>
               <div className="col-sm-6 col-lg-6 col-xl-6 col-xs-12">
@@ -79,41 +103,26 @@ if(user.role === "planner"){
         </div>
       {/**Curent events */}
       <div className="current-events mt-5 p-5">
-        <h3 className="mb-3">Current Events</h3>
+        <h3 className="mb-3">Our next events</h3>
 <div className="row">
 <div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12">
-              <div className="mr-5">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </div>
+{
+  ticketEvents.map((event)=>{
+    return(
+      <div class="card" >
+  <img class="card-img-top" src={`${SERVER_URL}/${event.image}`} alt="Card image cap" />
+  <div class="card-body">
+    <h5 class="card-title">{event.title}</h5>
+    <p class="card-text"><span>Venue: {event.venue}</span><span>Date: {event.date}</span>  <span>Time: {event.time}</span> <span></span></p>
+    <Link to={`/event/${event._id}`} class="btn btn-primary">Get Tickets</Link>
+  </div>
+</div>
+    )
+  })
+}
             </div>
-            <div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12">
-              <div className="mr-5">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </div>
-            </div>
-            <div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12">
-              <div className="mr-5">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </div>
-            </div>     
+        
+             
 </div>
 </div>
 
