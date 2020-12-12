@@ -1,6 +1,6 @@
 .admin{
     min-height: 100vh;
-
+border-top: 15px solid var(  --primary-color);
 }
 .dashboard-image{
     background-color: var(  --primary-color);

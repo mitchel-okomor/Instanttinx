@@ -1,9 +1,17 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './navigation.css';
 import {Link} from 'react-router-dom';
+import {myContext} from '../../App';
+
 
 
 function Navigation() {
+
+    const {state}=useContext(myContext);
+    const {user} = state;
+if(user.role === "planner"){
+    return <div></div>
+}
     return (
       <nav className="pr-5">
       <ul>

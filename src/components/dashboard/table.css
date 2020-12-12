@@ -2,3 +2,12 @@
 width: fit-content;
 
 }
+
+.dashboard h1{
+ color: var(  --primary-color);
+    
+}
+
+.dashboard span{
+    margin-left: 0.5rem;
+}

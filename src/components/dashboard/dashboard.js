@@ -10,23 +10,28 @@ import {myContext} from '../../App';
 function Dashboard() {
 
   const {state}=useContext(myContext);
-  const {loading} = state;
+  const {loading, userEvents} = state;
+
+  const completed = userEvents.filter(item=> item.isCompleted === "true");
+  const published = userEvents.filter(item=> item.isPublished ==="true");
+  const unCompleted = userEvents.filter(item=> item.isCompleted === "false");
+  const drafted = userEvents.filter(item=> item.isPublished ==="false");
 
     return (
         <div className="dashboard"> 
-            <h3 className="m-3">Dashboard</h3>
+            <h1 className="m-3 font-weigth-bold">Dashboard</h1>
             <div className="row">
                 <div className="col-ms-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
-<div className="total-events p-3">106 Events</div>
+<div className="total-events p-3">{userEvents.length} Events</div>
                 </div>
                 <div className="col-ms-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
-                <div className="published-events p-3">13 Published </div>    
+                <div className="published-events p-3">{published.length} Published </div>    
                     </div>
                     <div className="col-ms-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
-                 <div className="completed-events p-3"> 30 Completed</div>  
+                 <div className="completed-events p-3"> {completed.length} Completed</div>  
                     </div>
                     <div className="col-ms-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
-                  <div className="drafted-events p-3">59 Drafted</div>  
+                  <div className="drafted-events p-3">{drafted.length} Drafted</div>  
                     </div>
             </div>
             <div>

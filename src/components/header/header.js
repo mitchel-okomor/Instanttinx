@@ -8,7 +8,6 @@ import axios from 'axios';
 import {SERVER_URL, SET_USER} from '../helpers/constant';
 
 const Header = (props) => {
-// const dispatch = useDispatch();
 const {state, dispatch}=useContext(myContext);
 const {user} = state;
 
@@ -24,9 +23,10 @@ useEffect(()=>{
 
 //fetch user info when app starts
 const fetchUser = async () => {
+    const url = SERVER_URL + "/api/user/" +id;
 
-  const url = SERVER_URL + "/api/user/" +id;
-  try {
+if(id){
+ try {
     const response = await axios.get(url,{
       headers: {
         "Authorization": localStorage.getItem('token')
@@ -41,6 +41,8 @@ const fetchUser = async () => {
   } catch (error) {
     console.log(error);
   }
+}
+ return;
 };
 
 
@@ -58,9 +60,9 @@ if(user.firstname){
         <div className="user-area float-right">
           <ul>
           <li className="mr-3">
-              <Link to="/cart" className="cart"><i className="fa fa-cart-arrow-down" aria-hidden="true"></i>
+  {  user.role ==="planner"?"":<Link to="/cart" className="cart"><i className="fa fa-cart-arrow-down" aria-hidden="true"></i>
 
-</Link>
+</Link>}
             </li>
             <li className="mr-5">
   <Link to="/login"><i className="fa fa-user-o mr-1 " aria-hidden="true"></i>
