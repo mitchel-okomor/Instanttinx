@@ -1,4 +1,23 @@
 .event-details{
     min-height: 100vh;
     padding-top: 1rem;
+ 
+}
+
+.quantity{
+    display: inline-block;
+    width: fit-content;
+}
+.quantity select{
+    width: fit-content;
+    font-weight: bold;
+    font-size: large;
+}
+
+.quantity b{
+    font-size: larger;
+}
+
+.fa-twitter{
+    font-size: 1.5rem;
 }

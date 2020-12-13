@@ -246,6 +246,7 @@ if(loading){
                   </div>
                 </div>
                 <select name="role" id="role" className="form-control" onChange={handleChange}>
+                <option value="attandee">-------</option>
   <option value="attandee">Attandee</option>
   <option value="planner">Event planner</option>
 </select>

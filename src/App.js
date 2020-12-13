@@ -1,4 +1,4 @@
-import React, {createContext, useReducer} from "react";
+import React, {createContext, useReducer, useEffect} from "react";
 import "./App.css";
 import { Router, Switch, Route,  } from "react-router-dom";
 import {reducer, initialState} from '../src/components/reducers/reducer'
@@ -15,12 +15,49 @@ import Header from "./components/header/header";
 import About from "./components/about/about";
 import NotFound from "./components/notfound/notfound";
 import Eventdetails from "./components/event-details/event-details";
+import { SET_CART, SET_LOADING, SET_TICKET_EVENTS, SERVER_URL } from "./components/helpers/constant";
+import Cart from "./components/cart/cart";
+import Checkout from "./components/checkout/checkout";
+import axios from "axios";
 
 // const store = createStore(reducer);
 export const myContext = createContext();
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(()=>{
+    fetchTicketEvents();
+dispatch({type:SET_CART, payload: getCart()})
+  }, [])
+
+  const fetchTicketEvents = async ()=>{
+    const url = SERVER_URL + "/api/events"
+      dispatch({ type: SET_LOADING, payload: true });
+      try {
+        const response = await axios.get(url);
+        if (response.status === 200) {
+          const events = response.data;
+          console.log("Events: "+events);
+          dispatch({ type: SET_TICKET_EVENTS, payload: events});
+          dispatch({ type: SET_LOADING, payload: false });
+        }
+      } catch (error) {
+        console.log(error);
+        dispatch({ type: SET_LOADING, payload: false });
+      }
+    };
+
+  const getCart = ()=>{
+    const cart = JSON.parse(localStorage.getItem('cart'));
+    if(cart === "undefined" || !cart){
+      return [];
+    }
+    else{
+      return cart;
+    }
+  }
+
 
   return (
     <myContext.Provider value={{state, dispatch}}>
@@ -36,6 +73,8 @@ function App() {
           <Route  path="/edit/:id" component={Edit} />
           <Route  path="/about" component={About} />
           <Route path="/event/:id" component={Eventdetails} />
+          <Route path="/cart" component={Cart} />
+          <Route path="/checkout" component={Checkout} />
           <Route component={NotFound} />
         </Switch>
         <Footer />

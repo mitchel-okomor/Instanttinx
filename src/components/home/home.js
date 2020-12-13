@@ -17,25 +17,9 @@ const {user, ticketEvents, loading} = state;
 
 
 useEffect(()=>{
-fetchEvents();
 }, []);
 
-const fetchEvents = async ()=>{
-  const url = SERVER_URL + "/api/events"
-    dispatch({ type: SET_LOADING, payload: true });
-    try {
-      const response = await axios.get(url);
-      if (response.status === 200) {
-        const events = response.data;
-        console.log("Events: "+events);
-        dispatch({ type: SET_TICKET_EVENTS, payload: events});
-        dispatch({ type: SET_LOADING, payload: false });
-      }
-    } catch (error) {
-      console.log(error);
-      dispatch({ type: SET_LOADING, payload: false });
-    }
-  };
+
 
 if(user.role === "planner"){
   history.push("/admin/dashboard");
@@ -102,7 +86,7 @@ if(user.role === "planner"){
           </div>
         </div>
       {/**Curent events */}
-      <div className="current-events mt-5 p-5">
+      <div className="current-events mt-5 p-5 bg-light">
         <h3 className="mb-3">Our next events</h3>
 <div className="row">
 <div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12">

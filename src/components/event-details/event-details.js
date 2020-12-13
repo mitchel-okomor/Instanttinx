@@ -10,20 +10,23 @@ import Loading from '../loading/Loading';
 
 function Eventdetails(props) {
     let  id  = props.match.params.id;
-    console.log(id)
+    console.log("props: "+id)
     // const dispatch = useDispatch();
     const {state, dispatch}=useContext(myContext);
-    const { loading, cart, user, userEvents} = state;
+    const { loading, cart, user, ticketEvents} = state;
     const [event, setEvent] = useState("");
     const [quantity, setQuantity] = useState("")
-
-  useEffect(() => {
+    const [isInCart, setIsInCart] = useState(false);
+  
+  //check for cart info 
+    useEffect(() => {
       if(!user.firstname){
          fetchEvent();
       }
       else{
           getEventFromState();
       }
+      checkTicketInCart(id);
      
   }, [])
 
@@ -46,21 +49,46 @@ const fetchEvent = async () => {
   };
 
  const getEventFromState = ()=>{
-const event = userEvents.find(item => item._id === id)
+const event = ticketEvents.find(item => item._id === id)
 setEvent(event);
  } 
 
  const addToCart = (event, quantity) =>{
-
-    const ticket = {event, quantity};
-    const cart = cart.push(ticket);
-
+   console.log("amount: "+ quantity)
+  if(quantity.length <1){
+    return;
+  } 
+  else{
+     const ticket = {"eventId":event._id, "quantity":quantity};
+    cart.push(ticket);
+    localStorage.setItem('cart', JSON.stringify(cart) );
 dispatch({type:SET_CART, payload:cart})
+checkTicketInCart(event._id);
+  }
+   
+
  }
+
+const checkTicketInCart = (id) =>{
+  const cart = JSON.parse(localStorage.getItem("cart"))
+const index = cart.findIndex(item=>item.eventId === id);
+console.log("index: "+index)
+index >=0 ? setIsInCart(true) : setIsInCart(false)
+}
 
  const handleChange = (e) =>{
 setQuantity(e.target.value);
  }
+
+
+
+const removeFromCart = (id) => {
+  const index = cart.findIndex(item=>item.eventId === id);
+cart.splice(index,1);
+localStorage.setItem('cart', JSON.stringify(cart) );
+dispatch({type:SET_CART, payload:cart})
+checkTicketInCart(id);
+}
 
   if(loading){
    return  <div className="event-details mt-5">
@@ -79,7 +107,8 @@ setQuantity(e.target.value);
                 <div className="col-lg-4 col-12">
     <h3>{event.date}</h3>
     <p>{event.title}</p>
-    <p>{event.planner? event.planner : ""} <span><Link to={event.social? event.social : ""}>Follow</Link></span></p>
+    <p>{event.planner? event.planner : ""} <span><Link to={event.social? event.social : ""}>Follow <i class="fa fa-twitter" aria-hidden="true"></i>
+</Link></span></p>
     <h4>Amount: {event.price? event.price: "Free event"}</h4>
                 </div>
 
@@ -89,9 +118,22 @@ setQuantity(e.target.value);
             <div className="col-lg-8 col-12">
 </div>
 <div className="col-lg-4 col-12 border-bottom-0">
-    <button className="add-to-cart" onClick={()=>{addToCart(event, quantity)}}>Add to cart</button> <span>
-        <label>Number of Tickets</label> 
-        <input type="number" onChange={handleChange}/></span>
+ { !isInCart? 
+ <div> <button className="add-to-cart" onClick={()=>{addToCart(event, quantity)}}>Add to cart</button> <span>
+     <div className="form-group quantity ml-2">
+        <select id="number" name="number" className="form-control" onChange={handleChange}>
+        <option  value="1">0</option>
+  <option  value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+
+</select>  
+</div> <b>Tickets</b>
+      </span></div>
+      : <div><Link to="/checkout" className="checkout btn btn-primary mr-2" >Checkout</Link><span><a className="remove-from-cart btn btn-danger" onClick={()=>{removeFromCart(event._id)}}>Remove</a></span></div>
+      }
 </div>
             </div>
 

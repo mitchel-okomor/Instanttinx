@@ -60,13 +60,13 @@ header .cart{
   
 
   #lblCartCount {
-      font-size: 16px;
+      font-size: 14px;
       background: #fff;
       border: 1px solid var( --primary-color);
       color: var( --primary-color);
       padding: 0 5px;
       vertical-align: top;
-      margin-left: -10px; 
+      margin-left: -5px; 
   }
 
 

@@ -61,11 +61,11 @@ if(user.firstname){
           <ul>
           <li className="mr-3">
   {  user.role ==="planner"?"":<Link to="/cart" className="cart"><i className="fa fa-cart-arrow-down" aria-hidden="true"></i>
-
+  {cart.length >0 ?<span className='badge badge-warning' id='lblCartCount'> {cart.length} </span> : ""}
 </Link>}
             </li>
             <li className="mr-5">
-  <Link to="/login"><i className="fa fa-user-o mr-1 " aria-hidden="true"></i>
+  <Link to="/user"><i className="fa fa-user-o mr-1" aria-hidden="true"></i>
 {user.firstname}</Link>
             </li>
             <li onClick={logout}>
@@ -92,7 +92,7 @@ if(user.firstname){
             <ul>
             <li>
                 <Link to="/cart" className="cart"><i className="fa fa-cart-arrow-down" aria-hidden="true"></i>
-               {cart.legth >0 ?<span class='badge badge-warning' id='lblCartCount'> {cart.length} </span> : ""}
+               {cart.length >0 ?<span className='badge badge-warning' id='lblCartCount'> {cart.length} </span> : ""}
 </Link>
               </li>
               <li>
