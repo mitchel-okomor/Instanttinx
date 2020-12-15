@@ -1,10 +1,9 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext} from "react";
 import "./home.css";
 import history from "../services/history";
 import {myContext} from '../../App';
 import {Link} from "react-router-dom";
-import axios from "axios";
-import { SERVER_URL, SET_TICKET_EVENTS, SET_LOADING } from "../helpers/constant";
+import { SERVER_URL} from "../helpers/constant";
 
 
 
@@ -12,12 +11,8 @@ const Home = () => {
 
 
 // const dispatch = useDispatch();
-const {state, dispatch}=useContext(myContext);
-const {user, ticketEvents, loading} = state;
-
-
-useEffect(()=>{
-}, []);
+const {state}=useContext(myContext);
+const {user, ticketEvents} = state;
 
 
 
@@ -87,12 +82,12 @@ if(user.role === "planner"){
         </div>
       {/**Curent events */}
       <div className="current-events mt-5 p-5 bg-light">
-        <h3 className="mb-3">Our next events</h3>
+        <h3 className=" mb-5">Our next events</h3>
 <div className="row">
-<div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12">
 {
   ticketEvents.map((event)=>{
     return(
+      <div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12">
       <div class="card" >
   <img class="card-img-top" src={`${SERVER_URL}/${event.image}`} alt="Card image cap" />
   <div class="card-body">
@@ -101,10 +96,11 @@ if(user.role === "planner"){
     <Link to={`/event/${event._id}`} class="btn btn-primary">Get Tickets</Link>
   </div>
 </div>
+</div>
     )
   })
 }
-            </div>
+            
         
              
 </div>

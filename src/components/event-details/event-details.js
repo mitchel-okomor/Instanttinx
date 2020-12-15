@@ -17,6 +17,7 @@ function Eventdetails(props) {
     const [event, setEvent] = useState("");
     const [quantity, setQuantity] = useState("")
     const [isInCart, setIsInCart] = useState(false);
+    const [message, setMessage] = useState("")
   
   //check for cart info 
     useEffect(() => {
@@ -48,18 +49,24 @@ const fetchEvent = async () => {
     }
   };
 
+  //fetch event info from the state
  const getEventFromState = ()=>{
 const event = ticketEvents.find(item => item._id === id)
 setEvent(event);
  } 
 
+ //add event to cart
  const addToCart = (event, quantity) =>{
    console.log("amount: "+ quantity)
   if(quantity.length <1){
+    setMessage("Please select number of tickets");
+        setTimeout(()=>{setMessage("")}, 3000)
+
     return;
   } 
   else{
-     const ticket = {"eventId":event._id, "quantity":quantity};
+    const total = event.price * quantity;
+     const ticket = {"eventId":event._id, "quantity":quantity, "price":event.price, "title": event.title, "total": total};
     cart.push(ticket);
     localStorage.setItem('cart', JSON.stringify(cart) );
 dispatch({type:SET_CART, payload:cart})
@@ -69,10 +76,11 @@ checkTicketInCart(event._id);
 
  }
 
+ //check if ticket is in the cart already
 const checkTicketInCart = (id) =>{
-  const cart = JSON.parse(localStorage.getItem("cart"))
+  const cart = JSON.parse(localStorage.getItem("cart")) ? JSON.parse(localStorage.getItem("cart")) : [];
 const index = cart.findIndex(item=>item.eventId === id);
-console.log("index: "+index)
+console.log("index: "+index);
 index >=0 ? setIsInCart(true) : setIsInCart(false)
 }
 
@@ -109,7 +117,7 @@ checkTicketInCart(id);
     <p>{event.title}</p>
     <p>{event.planner? event.planner : ""} <span><Link to={event.social? event.social : ""}>Follow <i class="fa fa-twitter" aria-hidden="true"></i>
 </Link></span></p>
-    <h4>Amount: {event.price? event.price: "Free event"}</h4>
+    <h4>Amount: ₦{event.price? event.price: "Free event"}</h4>
                 </div>
 
             </div>
@@ -134,6 +142,7 @@ checkTicketInCart(id);
       </span></div>
       : <div><Link to="/checkout" className="checkout btn btn-primary mr-2" >Checkout</Link><span><a className="remove-from-cart btn btn-danger" onClick={()=>{removeFromCart(event._id)}}>Remove</a></span></div>
       }
+    <div className="text-danger">{message}</div>
 </div>
             </div>
 

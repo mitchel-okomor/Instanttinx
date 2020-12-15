@@ -3,6 +3,7 @@ import "./App.css";
 import { Router, Switch, Route,  } from "react-router-dom";
 import {reducer, initialState} from '../src/components/reducers/reducer'
 import Login from "./components/login/login";
+import checklogin from './components/helpers/checkLogin';
 import Signup from "./components/signup/signup";
 
 import Admin from "./components/admin/admin";
@@ -15,7 +16,7 @@ import Header from "./components/header/header";
 import About from "./components/about/about";
 import NotFound from "./components/notfound/notfound";
 import Eventdetails from "./components/event-details/event-details";
-import { SET_CART, SET_LOADING, SET_TICKET_EVENTS, SERVER_URL } from "./components/helpers/constant";
+import { SET_CART, SET_LOADING, SET_TICKET_EVENTS, SERVER_URL, SET_USER } from "./components/helpers/constant";
 import Cart from "./components/cart/cart";
 import Checkout from "./components/checkout/checkout";
 import axios from "axios";
@@ -25,11 +26,41 @@ export const myContext = createContext();
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const {user, cart} = state;
+
+const id =localStorage.getItem('userId');
 
   useEffect(()=>{
+    checklogin();
+    fetchUser();
     fetchTicketEvents();
 dispatch({type:SET_CART, payload: getCart()})
   }, [])
+
+
+  //fetch user info when app starts
+const fetchUser = async () => {
+  const url = SERVER_URL + "/api/user/" +id;
+
+if(id){
+try {
+  const response = await axios.get(url,{
+    headers: {
+      "Authorization": localStorage.getItem('token')
+  }});
+  if (response.status === 200) {
+    const data = response.data;
+    dispatch({type:SET_USER, payload: data});
+
+  //  dispatch({ type: "SET_USER", payload: data });
+  }
+} catch (error) {
+  console.log(error);
+}
+}
+return;
+};
+
 
   const fetchTicketEvents = async ()=>{
     const url = SERVER_URL + "/api/events"

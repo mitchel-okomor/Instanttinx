@@ -51,7 +51,7 @@ const state = {
         dispatch({ type: "SET_USER", payload: user });
         dispatch({ type: "SET_LOADING", payload: false });
         console.log(user.role)
-        user.role === "planner" ? history.push('/admin/dashboard'):   history.push('/');
+         history.goBack();
       }
 if(response.status === 401){
   console.log("401")

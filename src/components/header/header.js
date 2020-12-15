@@ -1,49 +1,15 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext} from "react";
 import { Link } from "react-router-dom";
 import {myContext} from '../../App';
 import "./header.css";
 import logout from "../helpers/Logout";
-import checklogin from '../helpers/checkLogin';
-import axios from 'axios';
+
 import {SERVER_URL, SET_USER} from '../helpers/constant';
 
 const Header = (props) => {
-const {state, dispatch}=useContext(myContext);
+const {state} = useContext(myContext);
 const {user, cart} = state;
 
-const id =localStorage.getItem('userId');
-
-
-useEffect(()=>{
-  checklogin();
-  fetchUser();
-}, 
-[]);
-
-
-//fetch user info when app starts
-const fetchUser = async () => {
-    const url = SERVER_URL + "/api/user/" +id;
-
-if(id){
- try {
-    const response = await axios.get(url,{
-      headers: {
-        "Authorization": localStorage.getItem('token')
-    }});
-    if (response.status === 200) {
-      const data = response.data;
-      dispatch({type:SET_USER, payload: data});
-      console.log(data);
-
-    //  dispatch({ type: "SET_USER", payload: data });
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
- return;
-};
 
 
 if(user.firstname){
@@ -96,7 +62,7 @@ if(user.firstname){
 </Link>
               </li>
               <li>
-                <Link to="/login">Log In</Link>
+                <Link to="/login">Login</Link>
               </li>
               <li>
                 <Link to="/signup">Signup</Link>

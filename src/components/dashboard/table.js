@@ -39,7 +39,7 @@ dispatch({type:SERVER_URL, payload: false});
 }))
 }
  
-const handlepublish =(id)=>{
+const handlePublish =(id)=>{
   const url = SERVER_URL + "/api/publish/"+  id
   dispatch({type:SERVER_URL, payload: true});
 axios(url, {
@@ -123,8 +123,8 @@ return  <tr key={_id}>
 <td><span><Link className="btn btn-primary" to={`/admin/edit-event/${_id}`}>Edit</Link ></span> 
 <span><button className="btn btn-danger" onClick={()=>{handleDelete(_id)}}>Delete</button></span> 
 {isPublished ==="false"
-? <span><button className="btn btn-secondary" onClick={()=>{handlepublish(_id)}}>Publish</button></span>
-:<span><button className="btn btn-secondary" onClick={()=>{handlepublish(_id)}}>Unpublish</button></span>}
+? <span><button className="btn btn-secondary" onClick={()=>{handlePublish(_id)}}>Publish</button></span>
+:<span><button className="btn btn-secondary" onClick={()=>{handlePublish(_id)}}>Unpublish</button></span>}
 {isCompleted ==="false"
 ? <span><button className="btn btn-secondary" onClick={()=>{handleComplete(_id)}}>Complete</button></span>
 :<span><button className="btn btn-secondary" onClick={()=>{handleComplete(_id)}}>Uncomplete</button></span>}

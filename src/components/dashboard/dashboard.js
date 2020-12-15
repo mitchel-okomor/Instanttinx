@@ -36,7 +36,7 @@ function Dashboard() {
             </div>
             <div>
                <div className="d-header">
-                 <div className="row mt-4 p-2">
+                 <div className="row mt-4 pt-3 pl-3">
                      <div className="col-ms-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 <div><Link to="/admin/create-event" className="btn btn-primary bold">Create Event</Link></div>
                      </div>

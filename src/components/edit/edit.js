@@ -37,6 +37,7 @@ const fetchEvent = async () => {
       setTime(data.time)
       setImage(data.image)
       setVenue(data.venue)
+      setPrice(data.price)
   
       }
     } catch (error) {
@@ -53,6 +54,7 @@ const fetchEvent = async () => {
   const [time, setTime] = useState('');
   const [image, setImage] = useState('');
   const [message, setMessage] = useState('');
+  const [price, setPrice] = useState('');
   
   const handleChange = (e)=>{
     
@@ -69,6 +71,8 @@ const fetchEvent = async () => {
           case "date":
               setDate(e.target.value);
               break;
+          case "price":
+              setPrice(e.target.price);
           case "image":
               setImage(e.target.files[0]);
               break;
@@ -142,7 +146,10 @@ const fetchEvent = async () => {
               <label htmlFor="time">Time:</label><br />
               <input type="time" name="time" id="time" value={time} onChange={handleChange}/>
                </div>
-             
+               <div>
+              <label htmlFor="price">Price:</label><br />
+              <input type="price" name="price" id="price" value={price} onChange={handleChange}/>
+               </div>
                <div>
           <button type="submit">Submit</button>
                </div>
