@@ -57,7 +57,7 @@ if(user.firstname){
           <div className="user-area float-right">
             <ul>
             <li>
-                <Link to="/cart" className="cart"><i className="fa fa-cart-arrow-down" aria-hidden="true"></i>
+                <Link to="/checkout" className="cart"><i className="fa fa-cart-arrow-down" aria-hidden="true"></i>
                {cart.length >0 ?<span className='badge badge-warning' id='lblCartCount'> {cart.length} </span> : ""}
 </Link>
               </li>

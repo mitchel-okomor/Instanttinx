@@ -140,7 +140,7 @@ checkTicketInCart(id);
 </select>  
 </div> <b>Tickets</b>
       </span></div>
-      : <div><Link to="/checkout" className="checkout btn btn-primary mr-2" >Checkout</Link><span><a className="remove-from-cart btn btn-danger" onClick={()=>{removeFromCart(event._id)}}>Remove</a></span></div>
+      : <div><Link to="/checkout" className=" btn btn-primary mr-2" >Checkout</Link><span><a className="remove-from-cart btn btn-danger" onClick={()=>{removeFromCart(event._id)}}>Remove</a></span></div>
       }
     <div className="text-danger">{message}</div>
 </div>

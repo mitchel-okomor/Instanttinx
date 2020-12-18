@@ -10,9 +10,7 @@ function Navigation() {
 
     const {state}=useContext(myContext);
     const {user} = state;
-if(user.role === "planner"){
-    return <div></div>
-}
+
     return (
       <nav className="pr-5">
       <ul>
@@ -20,7 +18,7 @@ if(user.role === "planner"){
           <li><Link to={user.firstname? "/admin/dashboard" :"/signup"}>Create event</Link> </li>
           <li> <Link to="/about">About</Link></li>
           <li><Link to="/contact">Contact</Link></li>
-          <li><Link to="/profile">Profile</Link></li>
+        { user.firstname? <li><Link to="/profile">Profile</Link></li>:""}
       </ul>
 </nav>
     )
