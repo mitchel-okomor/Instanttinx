@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {myContext} from '../../App';
 import axios from 'axios';
-import {SERVER_URL, SET_LOADING, SET_USER_EVENTS, SET_CART} from '../helpers/constant';
+import {SERVER_URL, SET_LOADING, SET_USER_EVENTS, SET_CART, SET_USER_ORDERS} from '../helpers/constant';
 import Loading from "../loading/Loading";
 import './checkout.css';
 import withAuth from '../services/withAuth';
@@ -20,7 +20,7 @@ async function placeOrder(){
    userId: user._id,
    cart
   }
-  const url = SERVER_URL + "/api/ticket";
+  const url = SERVER_URL + "/api/order";
   dispatch({ type: SET_LOADING, payload: true });
   try {
     const response = await axios.post(url, body,{
@@ -28,10 +28,10 @@ async function placeOrder(){
         "Authorization": localStorage.getItem('token')
     }});
     if (response.status === 200) {
-      const data =response.data;
-    
+      const data =response.data.data;
+    console.log("checkpout" + data)
       dispatch({ type: SET_LOADING, payload: false });
-      dispatch({type:SET_USER_EVENTS, payload: data })
+      dispatch({type:SET_USER_ORDERS, payload: data })
      // history.push("/profile/order");
     }
   } catch (error) {
