@@ -20,6 +20,7 @@ import { SET_CART, SET_LOADING, SET_TICKET_EVENTS, SERVER_URL, SET_USER } from "
 import Cart from "./components/cart/cart";
 import Checkout from "./components/checkout/checkout";
 import axios from "axios";
+import Profile from "./components/profile/profile";
 
 // const store = createStore(reducer);
 export const myContext = createContext();
@@ -103,6 +104,7 @@ return;
           <Route  path="/signup" component={Signup} />
           <Route  path="/edit/:id" component={Edit} />
           <Route  path="/about" component={About} />
+          <Route path="/profile" component={Profile} />
           <Route path="/event/:id" component={Eventdetails} />
           <Route path="/cart" component={Cart} />
           <Route path="/checkout" component={Checkout} />
