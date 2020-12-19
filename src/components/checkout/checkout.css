@@ -4,7 +4,7 @@
 }
 
 .quantity-button{
-    border: 1px solid  var( --light-color);
+    border: 1px solid  lightgray;
     width: fit-content;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
@@ -32,3 +32,6 @@ border-left:none;
   
 }
 
+.checkout .fa{
+font-size: x-large;
+}

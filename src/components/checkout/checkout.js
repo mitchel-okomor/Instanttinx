@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {myContext} from '../../App';
 import axios from 'axios';
-import {SERVER_URL, SET_LOADING, SET_USER_EVENTS, SET_CART, SET_USER_ORDERS} from '../helpers/constant';
+import {SERVER_URL, SET_LOADING, SET_MESSAGE, SET_CART, SET_USER_ORDERS} from '../helpers/constant';
 import Loading from "../loading/Loading";
 import './checkout.css';
 import withAuth from '../services/withAuth';
@@ -9,7 +9,7 @@ import {Link} from 'react-router-dom';
 
 function Checkout() {
   const {state, dispatch}=useContext(myContext);
-  const { cart, user} = state;
+  const { cart, user, message} = state;
   const firstname = user.firstname? user.firstname.toUpperCase() : '';
   const lastname = user.lastname? user.lastname.toUpperCase() : '';
   const userName = firstname + " " + lastname;
@@ -31,7 +31,12 @@ async function placeOrder(){
       const data =response.data.data;
     console.log("checkpout" + data)
       dispatch({ type: SET_LOADING, payload: false });
-      dispatch({type:SET_USER_ORDERS, payload: data })
+      dispatch({type:SET_USER_ORDERS, payload: data });
+      dispatch({type: SET_MESSAGE, payload: "Order submitted"})
+      setTimeout(()=>{ dispatch({type: SET_MESSAGE, payload: ""})
+    }, 3000)
+
+      localStorage.removeItem("cart");
      // history.push("/profile/order");
     }
   } catch (error) {
@@ -48,6 +53,32 @@ localStorage.setItem('cart', JSON.stringify(cart) );
 dispatch({type:SET_CART, payload:cart})
 }
 
+const increment = (id) =>{
+const modified = cart.map((item)=>{
+  if(item.eventId === id){
+item.quantity ++;
+item.total = Number(item.total) + Number(item.price);
+  }
+
+  return item;
+})
+localStorage.setItem('cart', JSON.stringify(modified) );
+dispatch({type: SET_CART, payload:modified})
+}
+
+const decrement = (id)=> {
+  const modified = cart.map((item)=>{
+    if(item.eventId === id && item.quantity > 0){
+  item.quantity --;
+  item.total =Number(item.total) - Number(item.price);
+    }
+  
+    return item;
+  })
+  localStorage.setItem('cart', JSON.stringify(modified) );
+  dispatch({type: SET_CART, payload:modified})
+  
+}
 
   
     return (
@@ -65,15 +96,16 @@ dispatch({type:SET_CART, payload:cart})
   </thead>
   <tbody className="p-5">
 {cart.map(({title, quantity, price, total, eventId}, index)=>{
-  const localQuantitty = quantity;
+  const localQuantity = quantity;
 return  <tr key={index}>
       <td scope="row">{index+1}</td>
 <td>{title}</td>
 <td>{price}</td>
-<td ><div className="quantity-button"><button>–</button> {localQuantitty} <button>+</button></div></td>
+<td ><div className="quantity-button"><button onClick={()=>{decrement(eventId)}}>–</button> {localQuantity} <button onClick={()=>{increment(eventId)}}>+</button></div></td>
 <td>₦{total}</td>
 <td ><Link className="text-danger font-weight-bold" onClick={()=>{removeitem(eventId)}}><i class="fa fa-times" aria-hidden="true"></i>
 </Link></td>
+
     </tr>
 })}
 <tr scope="row" className="">
@@ -86,6 +118,7 @@ return  <tr key={index}>
 
 <div className="mt-5">
 <h2>Buyer's Details</h2>
+<form>
 <div>
   <label>Name <span className="text-danger">*</span></label> <br />
   <input type="text" className="form-control" value={userName} />
@@ -97,10 +130,10 @@ return  <tr key={index}>
 <div>
   <label>Email Address <span className="text-danger">*</span></label> <br />
   <input type="text" className="form-control" value={user.email}/>
-</div>
+</div></form>
 <div>
-
 <div className="mt-5">
+  <div>{message}</div>
   <h2>Your Order</h2>
 <table className="table table-bordered">
   <thead>

@@ -65,7 +65,7 @@ setEvent(event);
     return;
   } 
   else{
-    const total = event.price * quantity;
+    const total =Number(event.price) * Number(quantity);
      const ticket = {"eventId":event._id, "quantity":quantity, "price":event.price, "title": event.title, "total": total};
     cart.push(ticket);
     localStorage.setItem('cart', JSON.stringify(cart) );
