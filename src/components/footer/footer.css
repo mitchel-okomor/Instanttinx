@@ -1,7 +1,14 @@
 footer { 
     width: 100%; 
     min-height: 2rem; 
+    background-color: var(--dark-color);
+    color: var(--light-color);
 } 
+
+footer a{
+    color: var(--light-color);
+    font-size: x-large;
+}
 
 .wave{
     background-image: url("../../images/wave.svg"); 

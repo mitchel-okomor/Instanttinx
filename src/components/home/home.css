@@ -1,5 +1,6 @@
 main img{
     width: 99%;
+    transition: 2s;
 }
 .current-events{
     text-align: center;
@@ -19,3 +20,28 @@ font-weight: 600;
 color: #e2ae49;
 }
 
+.intro{
+    background-color: rgba(0, 0, 0, 1);
+}
+
+.intro h1{
+    color: var(--light-color);
+    font-size: 3.5rem;
+}
+
+.see-more-button{
+    margin: auto;
+}
+
+.see-more-button a{
+    font-size: x-large;
+}
+
+.intro-image{
+    height: 15rem;
+}
+
+.intro-image img:hover{
+width: 80%;
+transition: 2s;
+}

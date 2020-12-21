@@ -21,6 +21,8 @@ import Cart from "./components/cart/cart";
 import Checkout from "./components/checkout/checkout";
 import axios from "axios";
 import Profile from "./components/profile/profile";
+import Events from "./components/events/events";
+import aos from 'aos';
 
 // const store = createStore(reducer);
 export const myContext = createContext();
@@ -28,7 +30,7 @@ export const myContext = createContext();
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const {user, cart} = state;
-
+aos.init();
 const id =localStorage.getItem('userId');
 
   useEffect(()=>{
@@ -105,6 +107,7 @@ return;
           <Route  path="/edit/:id" component={Edit} />
           <Route  path="/about" component={About} />
           <Route path="/profile" component={Profile} />
+          <Route path="/events" component={Events} />
           <Route path="/event/:id" component={Eventdetails} />
           <Route path="/cart" component={Cart} />
           <Route path="/checkout" component={Checkout} />

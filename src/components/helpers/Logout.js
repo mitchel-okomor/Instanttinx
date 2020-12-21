@@ -6,7 +6,7 @@ import history from '../services/history';
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
 console.log("logged out successfully");
-history.push('/');
+history.push('/login');
 window.location.reload();
  
 };

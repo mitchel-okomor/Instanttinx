@@ -10,7 +10,6 @@ import { SERVER_URL} from "../helpers/constant";
 const Home = () => {
 
 
-// const dispatch = useDispatch();
 const {state}=useContext(myContext);
 const {user, ticketEvents} = state;
 
@@ -24,78 +23,42 @@ if(user.role === "planner"){
   return (
     <main>
       <div className="home">
-        <div className="container">
-          <div className="top-images mt-5">
-          <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-  </ol>
-  <div class="carousel-inner">
-    <div class="carousel-item" >
-  <img src="..." alt="..." />
-  <div class="carousel-caption d-none d-md-block" >
-    <h5>...</h5>
-    <p>...</p>
-  </div>
-</div>
-    <div class="carousel-item">
-  <img src="..." alt="..." />
-  <div class="carousel-caption d-none d-md-block">
-    <h5>...</h5>
-    <p>...</p>
-  </div>
-</div>
-<div class="carousel-item">
-  <img src="..." alt="..." />
-  <div class="carousel-caption d-none d-md-block">
-    <h5>...</h5>
-    <p>...</p>
-  </div>
-</div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-          </div>
-          <div className=" row mt-5 mb-3 pt-5 pb-5 intro">
+        <div className="container-fluid text-center intro">
+          
+          <div className=" row mb-3 p-5 pb-5 ">
             <div className="col-sm-6 col-lg-6 col-xl-6 col-xs-12">
-              <div className="mr-5 ">
-          <h1>Looking for your nearest events?</h1> 
-           <Link className="btn btn">See Events</Link>
+              <div className="m-5 p-5 ">
+          <h1 className =" mb-4">Looking for your nearest event?</h1> 
+          <div className="mt-5  see-more-button">
+            <Link to="/events" className="btn btn-success">See Events</Link>
+          </div>
               </div>
             </div>
               <div className="col-sm-6 col-lg-6 col-xl-6 col-xs-12">
-                <div className="intro-image">
+                <div className="intro-image p-5">
                   <img src={require("../../images/party.jpg")} />
                 </div>
               </div>
            
           </div>
-        </div>
+ </div>
       {/**Curent events */}
       <div className="current-events mt-5 p-5 bg-light">
-        <h3 className=" mb-5">Our next events</h3>
+        <h2 className=" mb-5">Featured events</h2>
 <div className="row">
 {
   ticketEvents.map((event)=>{
     return(
       <div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12">
-      <div class="card" >
+            <Link to={`/event/${event._id}`}>
+      <div class="card " >
   <img class="card-img-top" src={`${SERVER_URL}/${event.image}`} alt="Card image cap" />
   <div class="card-body">
-    <h5 class="card-title">{event.title}</h5>
+    <h5 class="card-title text-success font-weight-bold">{event.title}</h5>
     <p class="card-text"><span>Venue: {event.venue}</span><span>Date: {event.date}</span>  <span>Time: {event.time}</span> <span></span></p>
-    <Link to={`/event/${event._id}`} class="btn btn-primary">Get Tickets</Link>
+    <Link to={`/event/${event._id}`} class="btn btn-success">View details</Link>
   </div>
-</div>
+</div></Link>
 </div>
     )
   })
@@ -108,7 +71,7 @@ if(user.role === "planner"){
 
       {/**Previous events */}
       <div className="container previous-events mt-5 mb-5">
-        <h3 className="mb-3">Previous Events</h3>
+        <h2 className="mb-3">Upcoming Events</h2>
 <div className="row">
 <div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12">
               <div className="mr-5">

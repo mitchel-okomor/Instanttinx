@@ -5,6 +5,22 @@
   box-sizing: border-box;
 }
 
+
+:root{
+  --primary-color: #066e45;    
+  --secondary-color: #ACCA1D;   
+  --dark-color: #033622;
+  --light-color: #f4f4f4;
+  --success: #5cb85c;
+  --error: #d9534f;
+
+}
+
+button{
+  background-color: var(--primary-color);
+  color: var(--light-color);
+}
+
 ul{
   list-style-type: none;
 }
@@ -22,13 +38,4 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-:root{
-  --primary-color: #066e45;    
-  --secondary-color: #ACCA1D;   
-  --dark-color: #033622;
-  --light-color: #f4f4f4;
-  --success-color: #5cb85c;
-  --error-color: #d9534f;
-
-}
 

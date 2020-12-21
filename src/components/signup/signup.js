@@ -16,7 +16,6 @@ const [lastname, setLastName] = useState("");
 const [username, setUserName] = useState("");
 const [email, setEmail] = useState("");
 const [phone, setPhone] = useState("");
-const [role, setRole] = useState("");
 const [password, setPassword] = useState("");
 const [confirm, setConfirm] = useState("");
 const [message, setMessage] = useState("");
@@ -51,9 +50,6 @@ case "phone":
   setPhone(e.target.value);
   break;
 
-case "role":
-  setRole(e.target.value);
-  break;
 
 case "password":
   setPassword(e.target.value);
@@ -73,21 +69,19 @@ const handleSubmit = async (e)=>{
     setMessage("Password do not match!");
     return;
   }
-const state = {
+const userData = {
   firstname,
   lastname,
   username,
   email,
   phone,
-  role,
   password
 }
 
   const url = SERVER_URL+'/api/signup';
-  console.log(state);
   dispatch({type:SET_LOADING, payload:true}); 
   try{
-  const response = await axios.post(url, state, {
+  const response = await axios.post(url, userData, {
     timeout: 30000
   });
   if(response.status===200){
@@ -234,24 +228,7 @@ if(loading){
                 />
               </div>
             </div>
-            <div className="from-group mt-4 ml-4 mb-2">
-              <label for="phone">
-                Sign up as: 
-              </label>
-              <br />
-              <div className="input-group ">
-                <div className="input-group-prepend">
-                  <div className="input-group-text bg-white">
-                  <i class="fa fa-id-card" aria-hidden="true"></i>
-                  </div>
-                </div>
-                <select name="role" id="role" className="form-control" onChange={handleChange}>
-                <option value="attandee">-------</option>
-  <option value="attandee">Attandee</option>
-  <option value="planner">Event planner</option>
-</select>
-              </div>
-            </div>
+            
             <div className="from-group mt-4 ml-4  mb-2">
               {" "}
               <label for="password">
@@ -316,5 +293,6 @@ if(loading){
     
   );
 }
+
 
 export default Signup;

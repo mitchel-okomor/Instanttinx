@@ -22,6 +22,10 @@ dispatch({type:SET_CART, payload:cart})
   
     return (
         <div className = "checkout container mt-5">
+         {
+ cart.length < 1 ? <div>Cart is empty</div>
+ :
+               
                <table class="table table-bordered">
   <thead className="bg-light p-5">
     <tr>
@@ -33,7 +37,8 @@ dispatch({type:SET_CART, payload:cart})
       <th scope="col">Action</th>
     </tr> 
   </thead>
-  <tbody className="p-5">
+
+ <tbody className="p-5">
 {cart.map(({title, quantity, price, total, eventId}, index)=>{
   const localQuantitty = quantity;
 return  <tr key={index}>
@@ -52,10 +57,12 @@ return  <tr key={index}>
 </td>
 </tr>
   </tbody>
-</table>
+</table>}
 
 
-<div className="text-center mt-5"><Link className="btn btn-primary" to="/checkout">Proceed to checkout</Link></div>
+{ cart.length <1 ? <div className="text-center mt-5"><Link className="btn btn-success" to="/events">See available events</Link></div>
+:<div className="text-center mt-5"><Link className="btn btn-primary" to="/checkout">Proceed to checkout</Link></div>
+}
 
         </div>)
 }

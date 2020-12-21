@@ -4,8 +4,6 @@ import {myContext} from '../../App';
 import "./header.css";
 import logout from "../helpers/Logout";
 
-import {SERVER_URL, SET_USER} from '../helpers/constant';
-
 const Header = (props) => {
 const {state} = useContext(myContext);
 const {user, cart} = state;
@@ -25,17 +23,18 @@ if(user.firstname){
       <div className="col-ms-12 col-ms-6 col-lg-6 col-xl-6">
         <div className="user-area float-right">
           <ul>
-          <li className="mr-3">
+          <li className="mr-3 pr-3">
   {  user.role ==="planner"?"":<Link to="/cart" className="cart"><i className="fa fa-cart-arrow-down" aria-hidden="true"></i>
   {cart.length >0 ?<span className='badge badge-warning' id='lblCartCount'> {cart.length} </span> : ""}
 </Link>}
             </li>
             <li className="mr-5">
-  <Link to="/user"><i className="fa fa-user-o mr-1" aria-hidden="true"></i>
+  <Link to="/profile"><i className="fa fa-user mr-1" aria-hidden="true"></i>
 {user.firstname}</Link>
             </li>
             <li onClick={logout}>
-  <Link to="">Logout</Link>
+  <Link to=""><i class="fa fa-sign-out mr-1" aria-hidden="true"></i>
+Logout</Link>
             </li>
           </ul>
         </div>
@@ -57,12 +56,13 @@ if(user.firstname){
           <div className="user-area float-right">
             <ul>
             <li>
-                <Link to="/checkout" className="cart"><i className="fa fa-cart-arrow-down" aria-hidden="true"></i>
+                <Link to="/checkout" className="cart mr-3 pr-3"><i className="fa fa-cart-arrow-down" aria-hidden="true"></i>
                {cart.length >0 ?<span className='badge badge-warning' id='lblCartCount'> {cart.length} </span> : ""}
 </Link>
               </li>
               <li>
-                <Link to="/login">Login</Link>
+                <Link to="/login"><i class="fa fa-sign-in mr-1" aria-hidden="true"></i>
+Login</Link>
               </li>
               <li>
                 <Link to="/signup">Signup</Link>

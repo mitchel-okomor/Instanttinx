@@ -40,7 +40,7 @@ margin: 0;
 }
 
 header .fa{
-    font-size: xx-large;
+    font-size: x-large;
 }
 
 
@@ -61,10 +61,10 @@ header .cart{
 
   #lblCartCount {
       font-size: 14px;
-      background: #fff;
+      background: var( --primary-color);
       border: 1px solid var( --primary-color);
-      color: var( --primary-color);
-      padding: 0 5px;
+      color: var( --light-color);
+      padding: 2px 5px;
       vertical-align: top;
       margin-left: -5px; 
   }
