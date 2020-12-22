@@ -13,7 +13,13 @@ const Home = () => {
 const {state}=useContext(myContext);
 const {user, ticketEvents} = state;
 
+function getAnimation (){
+  const animationList = ["zoom-in-right", "zoom-in-left", "slide-up", "slide-down", "flip-right","fade-up-right", "fade-down-left", "zoom-out"]
 
+  const animation = animationList[Math.floor(Math.random()*8)]
+
+return animation;
+}
 
 if(user.role === "planner"){
   history.push("/admin/dashboard");
@@ -25,16 +31,16 @@ if(user.role === "planner"){
       <div className="home">
         <div className="container-fluid text-center intro">
           
-          <div className=" row mb-3 p-5 pb-5 ">
-            <div className="col-sm-6 col-lg-6 col-xl-6 col-xs-12">
+          <div className=" row mb-5 p-5 pb-5 ">
+            <div className="col-sm-6 col-lg-6 col-xl-6 col-xs-12" data-aos="fade-up">
               <div className="m-5 p-5 ">
-          <h1 className =" mb-4">Looking for your nearest event?</h1> 
+          <h1 className =" mb-4" data-aos="slide-right">Looking for your nearest event?</h1> 
           <div className="mt-5  see-more-button">
             <Link to="/events" className="btn btn-success">See Events</Link>
           </div>
               </div>
             </div>
-              <div className="col-sm-6 col-lg-6 col-xl-6 col-xs-12">
+              <div className="col-sm-6 col-lg-6 col-xl-6 col-xs-12" data-aos="fade-left">
                 <div className="intro-image p-5">
                   <img src={require("../../images/party.jpg")} />
                 </div>
@@ -49,7 +55,7 @@ if(user.role === "planner"){
 {
   ticketEvents.map((event)=>{
     return(
-      <div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12">
+      <div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12 " data-aos={getAnimation()}>
             <Link to={`/event/${event._id}`}>
       <div class="card " >
   <img class="card-img-top" src={`${SERVER_URL}/${event.image}`} alt="Card image cap" />
