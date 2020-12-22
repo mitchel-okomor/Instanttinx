@@ -58,7 +58,7 @@ if(user.role === "planner"){
       <div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12 " data-aos={getAnimation()}>
             <Link to={`/event/${event._id}`}>
       <div class="card " >
-  <img class="card-img-top" src={`${SERVER_URL}/${event.image}`} alt="Card image cap" />
+  <img class="card-img-top" src={`${SERVER_URL}/${event.image}`} alt="Event image" />
   <div class="card-body">
     <h5 class="card-title text-success font-weight-bold">{event.title}</h5>
     <p class="card-text"><span>Venue: {event.venue}</span><span>Date: {event.date}</span>  <span>Time: {event.time}</span> <span></span></p>
@@ -76,42 +76,24 @@ if(user.role === "planner"){
 </div>
 
       {/**Previous events */}
-      <div className="container previous-events mt-5 mb-5">
-        <h2 className="mb-3">Upcoming Events</h2>
-<div className="row">
-<div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12">
+<div className="container upcoming-events mt-5 mb-5">
+      <h2 className="mb-5">Upcoming Events</h2>
+      <div className="row">
+    {  ticketEvents.map((event)=>{
+    let dateInsec = Date.parse(event.date);
+    let date = new Date(dateInsec);
+    let month = ["JAN", "FEB", "MAR", "APR", "MAP", "JUN", "JUL", "AUG", "SEPT", "OCT", "NOV", "DEC"];
+  return  <div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12">
               <div className="mr-5">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+              <div className="card">
+              <img className="card-image" src={`${SERVER_URL}/${event.image}`} alt="Event Image"/>
+              <div className="row card-body">
+             <div className="col-8 title "><h5 className=" float-left">{event.title}</h5> </div>  
+              <div className="col-4 "><div className="date">{month[date.getMonth()] + " " + date.getDay()}</div></div>
               </div>
-            </div>
-            <div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12">
-              <div className="mr-5">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
               </div>
-            </div>
-            <div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12">
-              <div className="mr-5">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
               </div>
-            </div>     
+            </div> })}
 </div>
 </div>
 

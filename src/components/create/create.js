@@ -19,6 +19,7 @@ function Create() {
 
 
 const [title, setTitle] = useState('');
+const [eventType, setEventType] = useState('')
 const [description, setDescription] = useState('');
 const [venue, setVenue] = useState('');
 const [date, setDate] = useState('');
@@ -48,6 +49,9 @@ const handleChange = (e)=>{
         case "image":
             setImage(e.target.files[0]);
             break;
+        case"type":
+            setEventType(e.target.value);
+            break;
         default:
             setTime(e.target.value)
     }
@@ -66,6 +70,7 @@ formData.append("time", time);
 formData.append("image", image);
 formData.append("userId", user._id);
 formData.append("price", price);
+formData.append("event_type", eventType);
 
     const url = SERVER_URL + "/api/event";
     dispatch({ type: SET_LOADING, payload: true });
@@ -104,6 +109,10 @@ if (loading) {
              <div>
             <label htmlFor="title">Event Title:</label><br />
             <input type="text" name="title" id="title" required onChange={handleChange}/>
+             </div>
+             <div>
+            <label htmlFor="title">Event Type:</label><br />
+            <input type="text" name="type" id="type" required onChange={handleChange}/>
              </div>
              <div>
             <label htmlFor="description">Description:</label><br />

@@ -9,7 +9,7 @@ main img{
 
 }
 
-.previous-events{
+.upcoming-events{
     margin: auto;
     text-align: center;
 }
@@ -44,4 +44,16 @@ color: #e2ae49;
 .intro-image img:hover{
 width: 80%;
 transition: 2s;
+}
+.upcoming-events .date{
+    background:  rgba(0, 0, 0, 0.863);
+    border-radius: 4px;
+    color: var(--light-color);
+    width: fit-content;
+    padding: 4px;
+}
+
+.upcoming-events .title h5{
+    color: var(--dark-color);
+    font-weight: 700;
 }
