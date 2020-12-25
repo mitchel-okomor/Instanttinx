@@ -57,3 +57,110 @@ transition: 2s;
     color: var(--dark-color);
     font-weight: 700;
 }
+
+.completed h4{
+    color: #dd9c1b;
+    
+}
+
+.completed h3::after{
+    animation-name: counter;
+    animation-duration: 2.7s;
+}
+.carousel{
+        background-color: rgb(253, 251, 251);
+text-align: center;
+}
+
+h4{
+    border-bottom: 1px solid lightgrey;
+
+}
+
+.reviews h5{
+    color: var(--primary-color);
+}
+
+
+@keyframes counter {
+    0% {
+    content: 1;
+    }
+    10% {
+        content: 4;
+    }
+    20% {
+        content: 7;
+    }
+    30% {
+        content: 9;
+    }
+    40% {
+        content: 15;
+    }
+    50% {
+        content: 20;
+    }
+    60% {
+        content: 27;
+    }
+    70% {
+        content: 30;
+    }
+    80% {
+        content: 31;
+    }
+    90% {
+        content: 33;
+    }
+    100% {
+        content: 34;
+    }
+  }
+
+@media screen and (max-width: 860px){
+
+    .intro{
+        padding: 0 !important;
+    }
+
+    .intro div{
+        padding: 0 1rem 0.5rem 1rem !important;
+        margin-bottom: 0 !important;
+    }
+    .intro h1{
+        color: #e0c080;
+        font-size: 1.5rem;
+    } 
+
+.info div {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.upcoming-events div{
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.upcoming-events h2{
+    margin-bottom: 0.5rem !important;
+}
+
+.current-events h2{
+    margin-bottom: 0.5rem !important;
+}
+
+.current-events {
+    margin-top: 0 !important;
+}
+
+
+.intro-image {
+    display: none !important;
+}
+
+.upcoming-events .date{
+   font-size: small;
+}
+}

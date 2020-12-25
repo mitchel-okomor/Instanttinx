@@ -1,7 +1,7 @@
 *{
   margin: 0;
   padding: 0;
-  font-size: 16px;
+  font-size: 14px;
   box-sizing: border-box;
 }
 
@@ -18,6 +18,11 @@
 
 button{
   background-color: var(--primary-color);
+  color: var(--light-color);
+}
+
+button{
+  background-color: green;
   color: var(--light-color);
 }
 
@@ -38,4 +43,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.hide{
+  display: none;
+}
+
+button:focus {
+  border: none;
+  outline: none;
+}
 

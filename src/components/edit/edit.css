@@ -22,20 +22,20 @@ label {
     font-size: 20px;
   }
   
-  input,
+  .edit-image input,
   textarea {
     border: 0;
     border-bottom: 1px solid gray;
     padding: 10px 0;
     min-width: 300px;
   }
-  form,
+  .edit-image form,
   fieldset {
     border: 0;
   }
   
   
-  button {
+  .edit-image button {
     background: #999;
     border: 0;
     border-radius: 10px;
@@ -45,17 +45,17 @@ label {
     width: 190px;
     text-transform: uppercase;
   }
-  button:hover{
+  .edit-image button:hover{
       background: blue;
   }
   
-  button:active{
+  .edit-image button:active{
     height: 42px;
     width: 200px;
   
   }
   
-  select {
+  .edit-image select {
     background: transparent;
     border: 0;
     border-radius: 0;
@@ -71,11 +71,11 @@ label {
   width: 200px;
   }
 
-  input:valid,
+  .edit-image input:valid,
   textarea:valid {
   border-bottom-color: green;
   }
-  input:invalid,
+  .edit-image input:invalid,
   textarea:invalid {
   border-bottom-color: red;
   }

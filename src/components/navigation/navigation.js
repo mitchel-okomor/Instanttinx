@@ -8,21 +8,28 @@ import history from "../services/history";
 
 function Navigation() {
 
+  const toggleNav = () =>{
+    const navBar = document.getElementById("nav-bar");
+    navBar.style.display ==="block" ? navBar.style.display = "none" : navBar.style.display = "block";
+  }
+
     const {state}=useContext(myContext);
     const {user} = state;
 
     return (
-//       <nav className="pr-5">
-//       <ul>
-//           <li><Link to="/">Home</Link> </li>          
-//           <li><Link to="/events">Events</Link> </li>
-//           <li><Link to={user.firstname? "/admin/dashboard" :"/signup"}>Create event</Link> </li>
-//           <li> <Link to="/about">About</Link></li>
-//           <li><Link to="/contact">Contact</Link></li>
-//         { user.firstname? <li><Link to="/profile">Profile</Link></li>:""}
-//       </ul>
-// </nav>
-<nav class="navbar navbar-expand-lg  navbar-light bg-light" 
+      <nav className="pr-5 navbar justify-content-end">
+      <button onClick={toggleNav} className=" hide"><i class="fa fa-bars" aria-hidden="true"></i>
+</button>
+      <ul id="nav-bar" data-aos="slide-left">
+          <li><Link to="/">Home</Link> </li>          
+          <li><Link to="/events">Events</Link> </li>
+          <li><Link to={user.firstname? "/admin/dashboard" :"/login"}>Create event</Link> </li>
+          <li><Link to="/contact">Contact</Link></li>
+          <li> <Link to="/about">About</Link></li>
+        { user.firstname? <li><Link to="/profile">Profile</Link></li>:""}
+      </ul>
+</nav> )
+{/* <nav class="navbar navbar-expand-lg  navbar-light bg-light" 
 
 >
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,8 +57,8 @@ function Navigation() {
     
     </ul>
   </div>
-</nav>
-    )
+</nav> */}
+   
 }
 
 export default Navigation;

@@ -5,6 +5,7 @@ import {SERVER_URL, SET_LOADING, SET_CART} from '../helpers/constant';
 import {myContext} from '../../App';
 import axios from 'axios';
 import Loading from '../loading/Loading';
+import formatDate from '../helpers/formatDate';
 
 
 
@@ -113,7 +114,7 @@ checkTicketInCart(id);
 <img src={`${SERVER_URL}/${event.image}`} />
                 </div>
                 <div className="col-lg-4 col-12">
-    <h3>{event.date}</h3>
+    <h3>{formatDate(event.date)}</h3>
     <p>{event.title}</p>
     <p>{event.planner? event.planner : ""} <span><Link to={event.social? event.social : ""}>Follow <i class="fa fa-twitter" aria-hidden="true"></i>
 </Link></span></p>

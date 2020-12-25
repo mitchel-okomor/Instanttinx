@@ -70,4 +70,23 @@ header .cart{
   }
 
 
+  @media screen and (max-width: 860px){
+    .logo{
+      display: none;
+    }
+
+    header{
+        height: 4rem;
+    }
+
+    header a {
+        margin-right: 1rem;
+        font-size: 1rem;
+    }
+
+    header .fa{
+        font-size: large;
+    }
+    
+  }
 

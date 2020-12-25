@@ -34,7 +34,7 @@ font-weight: bold;
   color: var(--light-color);
 }
 .login  .signup{
-  background-color: #ececec;
+color: var(--primary-color);
   height: 5rem;
 }
 

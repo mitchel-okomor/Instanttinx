@@ -24,6 +24,7 @@ import Profile from "./components/profile/profile";
 import Events from "./components/events/events";
 import aos from 'aos';
 import 'aos/dist/aos.css';
+import Contact from "./components/contact/contact";
 
 // const store = createStore(reducer);
 export const myContext = createContext();
@@ -117,6 +118,7 @@ return;
           <Route  path="/signup" component={Signup} />
           <Route  path="/edit/:id" component={Edit} />
           <Route  path="/about" component={About} />
+          <Route path="/contact" component={Contact} />
           <Route path="/profile" component={Profile} />
           <Route path="/events" component={Events} />
           <Route path="/event/:id" component={Eventdetails} />
