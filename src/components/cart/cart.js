@@ -18,7 +18,31 @@ localStorage.setItem('cart', JSON.stringify(cart) );
 dispatch({type:SET_CART, payload:cart})
 }
 
-
+const increment = (id) =>{
+  const modified = cart.map((item)=>{
+    if(item.eventId === id){
+  item.quantity ++;
+  item.total = Number(item.total) + Number(item.price);
+    }
+  
+    return item;
+  })
+  localStorage.setItem('cart', JSON.stringify(modified) );
+  dispatch({type: SET_CART, payload:modified})
+  }
+  
+  const decrement = (id)=> {
+    const modified = cart.map((item)=>{
+      if(item.eventId === id && item.quantity > 0){
+    item.quantity --;
+    item.total =Number(item.total) - Number(item.price);
+      }
+    
+      return item;
+    })
+    localStorage.setItem('cart', JSON.stringify(modified) );
+    dispatch({type: SET_CART, payload:modified})
+  }
   
     return (
         <div className = "checkout container mt-5">
@@ -45,7 +69,7 @@ return  <tr key={index}>
       <td scope="row">{index+1}</td>
 <td>{title}</td>
 <td>{price}</td>
-<td ><div className="quantity-button"><button>–</button> {localQuantitty} <button>+</button></div></td>
+<td ><div className="quantity-button"><button onClick={()=>{decrement(eventId)} }>–</button> {localQuantitty} <button onClick={()=>{increment(eventId)} }>+</button></div></td>
 <td>₦{total}</td>
 <td ><Link className="text-danger font-weight-bold" onClick={()=>{removeitem(eventId)}}><i class="fa fa-times" aria-hidden="true"></i>
 </Link></td>
@@ -53,7 +77,7 @@ return  <tr key={index}>
 })}
 <tr scope="row" className="">
 
-<td colspan="6"> <button>Update cart</button>
+<td colspan="6"> <button className="btn btn-success">Update cart</button>
 </td>
 </tr>
   </tbody>

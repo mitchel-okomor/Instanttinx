@@ -41,7 +41,7 @@ function Contact() {
                     <div class="col-lg-4">
                         <div class="contact-form">
                             <form id="contact">
-                                <div class="row">
+                                <div class="row mb-3">
                                     <div class="col-md-6">
                                         <input type="text" class="form-control" placeholder="Your Name" />
                                     </div>

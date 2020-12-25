@@ -11,14 +11,15 @@ function Events() {
     const {ticketEvents} = state;
 
     return (
-        <div className="events container-fluid mt-5 p-5">
+        <div className="events container-fluid  p-5">
 <div className="row">
 {
   ticketEvents.map((event)=>{
+    if(event.isPublished === "true" && event.isCompleted === "false"){
     return(
       <div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12">
      <Link to={`/event/${event._id}`}>
-      <div class="card" >
+      <div class="card mt-5" >
   <img class="card-img-top" src={`${SERVER_URL}/${event.image}`} alt="Card image cap" />
   <div class="card-body">
     <h5 class="card-title text-success font-weight-bold">{event.title}</h5>
@@ -28,6 +29,7 @@ function Events() {
 </div></Link>
 </div>
     )
+  }
   })
 }
             

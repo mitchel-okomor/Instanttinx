@@ -4,7 +4,6 @@ import axios from 'axios';
 import {SERVER_URL, SET_LOADING, SET_MESSAGE, SET_CART, SET_USER_ORDERS} from '../helpers/constant';
 import Loading from "../loading/Loading";
 import './checkout.css';
-import withAuth from '../services/withAuth';
 import {Link} from 'react-router-dom';
 
 function Checkout() {
@@ -110,7 +109,7 @@ return  <tr key={index}>
 })}
 <tr scope="row" className="">
 
-<td colspan="6"> <button>Update cart</button>
+<td colspan="6 " className="text-center pt-4"> <button className="btn btn-success">Update cart</button>
 </td>
 </tr>
   </tbody>
@@ -160,10 +159,10 @@ return  <tr key={index}>
 
 </div>
 </div>
-<div className="text-center mt-5"><button onClick={placeOrder}>Place order</button></div>
+<div className="text-center mt-5"><button onClick={placeOrder} className="btn btn-success">Place order</button></div>
 
         </div>
     )
 }
 
-export default  withAuth(Checkout);
+export default  Checkout;

@@ -43,7 +43,7 @@ function Dashboard() {
                      <div className="col-ms-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
 <div><form>
       <input type="text" placeholder="Search.." name="search" />
-      <button type="submit"><i class="fa fa-search" ></i></button>
+      <button type="submit" className="btn btn-success"><i class="fa fa-search" ></i></button>
     </form></div>
                      </div>
                      <div className="col-ms-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">

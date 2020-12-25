@@ -69,7 +69,7 @@ const Admin = () =>{
 
 <div className="side pt-5 ">
 <h4 className="mx-4 ">Navigation</h4>
-<ul className="px-3 ">
+<ul className="px-4 ">
 <li><Link to={`${url}/dashboard`}><i class="fa fa-tachometer" aria-hidden="true"></i>
 Dashboard</Link></li>
 <li><Link to={`${url}/events`}><i class="fa fa-th-large" aria-hidden="true"></i>

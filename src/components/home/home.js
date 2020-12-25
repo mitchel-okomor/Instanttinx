@@ -60,7 +60,8 @@ if(user.role === "planner"){
 <div className="row">
 {
   FeaturedEvents.map((event)=>{
-    return(
+    if(event.isPublished === "true" && event.isCompleted === "false"){
+     return(
       <div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12 " data-aos={getAnimation()}>
             <Link to={`/event/${event._id}`}>
       <div class="card mt-4" >
@@ -72,7 +73,9 @@ if(user.role === "planner"){
   </div>
 </div></Link>
 </div>
-    )
+    )  
+    }
+   
   })
 }
             
@@ -86,6 +89,7 @@ if(user.role === "planner"){
       <h2 className="mb-5">Upcoming Events</h2>
       <div className="row">
     {  upcomingEvents.map((event)=>{
+        if(event.isPublished === "true" && event.isCompleted === "false"){
   return  <div className="col-sm-4 col-lg-4 col-xl-4 col-xs-12">
               <div className="mr-5 mt-4">
               <div className="card">
@@ -96,7 +100,7 @@ if(user.role === "planner"){
               </div>
               </div>
               </div>
-            </div> })}
+            </div> }})}
 </div>
 </div>
 <hr />
