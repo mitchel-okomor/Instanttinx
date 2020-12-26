@@ -18,11 +18,17 @@ padding: 0.5rem;
 }
 
 
-nav ul li:hover{
+nav ul li a:hover{
    border-bottom: 0.3rem solid var(--light-color);
    border-radius: 0.3rem;
     
     }
+
+    nav ul li .active{
+        border-bottom: 0.3rem solid var(--light-color);
+        border-radius: 0.3rem;
+         
+         }
 
 nav a{
     color: var(--light-color) !important;

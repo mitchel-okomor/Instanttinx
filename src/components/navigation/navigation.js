@@ -1,12 +1,14 @@
 import React, {useContext} from 'react';
 import './navigation.css';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import {myContext} from '../../App';
 import history from "../services/history";
 
 
 
 function Navigation() {
+const locus = useLocation();
+
 
   const toggleNav = () =>{
     const navBar = document.getElementById("nav-bar");
@@ -21,12 +23,11 @@ function Navigation() {
       <button onClick={toggleNav} className=" hide"><i class="fa fa-bars" aria-hidden="true"></i>
 </button>
       <ul id="nav-bar" data-aos="slide-left">
-          <li><Link to="/">Home</Link> </li>          
-          <li><Link to="/events">Events</Link> </li>
-          <li><Link to={user.firstname? "/admin/dashboard" :"/login"}>Create event</Link> </li>
-          <li><Link to="/contact">Contact</Link></li>
-          <li> <Link to="/about">About</Link></li>
-        { user.firstname? <li><Link to="/profile">Profile</Link></li>:""}
+          <li><Link to="/" className={locus.pathname === "/"? "active" : ""}>Home</Link> </li>          
+          <li><Link to="/events" className={locus.pathname === "/events"? "active" : ""}>Events</Link> </li>
+          <li><Link to={user.firstname? "/admin/dashboard" :"/login"} className={locus.pathname === "/admin/dashboard"? "active" : ""}>Create event</Link> </li>
+          <li><Link to="/contact" className={locus.pathname === "/contact"? "active" : ""} >Contact</Link></li>
+        { user.firstname? <li><Link to="/profile" className={locus.pathname === "/profile"? "active" : ""}>Profile</Link></li>:""}
       </ul>
 </nav> )
 {/* <nav class="navbar navbar-expand-lg  navbar-light bg-light" 
