@@ -1,36 +1,74 @@
-import React, {useContext} from 'react';
-import './navigation.css';
-import {Link, useLocation} from 'react-router-dom';
-import {myContext} from '../../App';
+import React, { useContext } from "react";
+import "./navigation.css";
+import { Link, useLocation } from "react-router-dom";
+import { myContext } from "../../App";
 import history from "../services/history";
 
-
-
 function Navigation() {
-const locus = useLocation();
+  const locus = useLocation();
 
-
-  const toggleNav = () =>{
+  const toggleNav = () => {
     const navBar = document.getElementById("nav-bar");
-    navBar.style.display ==="block" ? navBar.style.display = "none" : navBar.style.display = "block";
-  }
+    navBar.style.display === "block"
+      ? (navBar.style.display = "none")
+      : (navBar.style.display = "block");
+  };
 
-    const {state}=useContext(myContext);
-    const {user} = state;
+  const { state } = useContext(myContext);
+  const { user } = state;
 
-    return (
-      <nav className="pr-5 navbar justify-content-end">
-      <button onClick={toggleNav} className=" hide"><i class="fa fa-bars" aria-hidden="true"></i>
-</button>
+  return (
+    <nav className="pr-5 navbar justify-content-end">
+      <button onClick={toggleNav} className="btn hide">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+      </button>
       <ul id="nav-bar" data-aos="slide-left">
-          <li><Link to="/" className={locus.pathname === "/"? "active" : ""}>Home</Link> </li>          
-          <li><Link to="/events" className={locus.pathname === "/events"? "active" : ""}>Events</Link> </li>
-          <li><Link to={user.firstname? "/admin/dashboard" :"/login"} className={locus.pathname === "/admin/dashboard"? "active" : ""}>Create event</Link> </li>
-          <li><Link to="/contact" className={locus.pathname === "/contact"? "active" : ""} >Contact</Link></li>
-        { user.firstname? <li><Link to="/profile" className={locus.pathname === "/profile"? "active" : ""}>Profile</Link></li>:""}
+        <li>
+          <Link to="/" className={locus.pathname === "/" ? "active" : ""}>
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/events"
+            className={locus.pathname === "/events" ? "active" : ""}
+          >
+            Events
+          </Link>
+        </li>
+        <li>
+          <Link
+            to={user.firstname ? "/admin/dashboard" : "/login"}
+            className={locus.pathname === "/admin/dashboard" ? "active" : ""}
+          >
+            Create event
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/contact"
+            className={locus.pathname === "/contact" ? "active" : ""}
+          >
+            Contact
+          </Link>
+        </li>
+        {user.firstname ? (
+          <li>
+            <Link
+              to="/profile"
+              className={locus.pathname === "/profile" ? "active" : ""}
+            >
+              Profile
+            </Link>
+          </li>
+        ) : (
+          ""
+        )}
       </ul>
-</nav> )
-{/* <nav class="navbar navbar-expand-lg  navbar-light bg-light" 
+    </nav>
+  );
+  {
+    /* <nav class="navbar navbar-expand-lg  navbar-light bg-light" 
 
 >
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,8 +96,8 @@ const locus = useLocation();
     
     </ul>
   </div>
-</nav> */}
-   
+</nav> */
+  }
 }
 
 export default Navigation;
