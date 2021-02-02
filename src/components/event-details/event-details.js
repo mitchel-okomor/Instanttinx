@@ -9,7 +9,6 @@ import formatDate from "../helpers/formatDate";
 
 function Eventdetails(props) {
   let id = props.match.params.id;
-  console.log("props: " + id);
   // const dispatch = useDispatch();
   const { state, dispatch } = useContext(myContext);
   const { loading, cart, user, ticketEvents } = state;
@@ -20,13 +19,18 @@ function Eventdetails(props) {
 
   //check for cart info
   useEffect(() => {
-    if (!user.firstname) {
+    checkEvents();
+  });
+
+  //check if there are events already before fetching
+  const checkEvents = () => {
+    if (!user) {
       fetchEvent();
     } else {
       getEventFromState();
     }
     checkTicketInCart(id);
-  }, []);
+  };
 
   //fetch user info when app starts
   const fetchEvent = async () => {
@@ -53,7 +57,6 @@ function Eventdetails(props) {
 
   //add event to cart
   const addToCart = (event, quantity) => {
-    console.log("amount: " + quantity);
     if (quantity.length < 1) {
       setMessage("Please select number of tickets");
       setTimeout(() => {
@@ -83,7 +86,6 @@ function Eventdetails(props) {
       ? JSON.parse(localStorage.getItem("cart"))
       : [];
     const index = cart.findIndex((item) => item.eventId === id);
-    console.log("index: " + index);
     index >= 0 ? setIsInCart(true) : setIsInCart(false);
   };
 
@@ -112,7 +114,7 @@ function Eventdetails(props) {
       <div className=" ">
         <div className="row bg-light py-4">
           <div className="col-lg-8 col-12">
-            <img src={`${SERVER_URL}/${event.image}`} />
+            <img src={`${SERVER_URL}/${event.image}`} alt="" />
           </div>
           <div className="col-lg-4 col-12">
             <h3>{formatDate(event.date)}</h3>
@@ -121,7 +123,7 @@ function Eventdetails(props) {
               {event.planner ? event.planner : ""}{" "}
               <span>
                 <Link to={event.social ? event.social : ""}>
-                  Follow <i class="fa fa-twitter" aria-hidden="true"></i>
+                  Follow <i className="fa fa-twitter" aria-hidden="true"></i>
                 </Link>
               </span>
             </p>
@@ -168,14 +170,14 @@ function Eventdetails(props) {
                   Checkout
                 </Link>
                 <span>
-                  <a
+                  <button
                     className="remove-from-cart btn btn-danger"
                     onClick={() => {
                       removeFromCart(event._id);
                     }}
                   >
                     Remove
-                  </a>
+                  </button>
                 </span>
               </div>
             )}

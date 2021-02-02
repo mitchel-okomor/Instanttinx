@@ -1,23 +1,17 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { myContext } from "../../App";
-import { SERVER_URL, SET_LOADING } from "../helpers/constant";
+import { SERVER_URL } from "../helpers/constant";
 import "./header.css";
 import axios from "axios";
 import logout from "../helpers/Logout";
 
 const Header = (props) => {
   const { state } = useContext(myContext);
-  const { user, cart } = state;
+  const { user, cart, orders } = state;
   const [pendingOrder, setPendingOrder] = useState(false);
 
-  useEffect(() => {
-    if (user) {
-      checkPendingOrder();
-    }
-  }, [user]);
-
-  const checkPendingOrder = () => {
+  const checkPendingOrder = useCallback(() => {
     const url = SERVER_URL + "/api/order-count/" + user._id;
     axios
       .get(url)
@@ -32,16 +26,22 @@ const Header = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  };
+  }, [user]);
 
-  if (user.firstname) {
+  useEffect(() => {
+    if (user) {
+      checkPendingOrder();
+    }
+  }, [checkPendingOrder, user, orders]);
+
+  if (user) {
     return (
       <header>
         <div className="row">
           <div className="col-ms-12 col-ms-6 col-lg-6 col-xl-6">
             <h1 className="logo">
               <Link to="/">
-                <img src={require("../../images/logo.png")} />
+                <img src={require("../../images/logo.png")} alt="logo" />
               </Link>
             </h1>
           </div>
@@ -82,7 +82,7 @@ const Header = (props) => {
                 </li>
                 <li onClick={logout}>
                   <Link to="">
-                    <i class="fa fa-sign-out mr-1" aria-hidden="true"></i>
+                    <i className="fa fa-sign-out mr-1" aria-hidden="true"></i>
                     Logout
                   </Link>
                 </li>
@@ -100,7 +100,7 @@ const Header = (props) => {
         <div className="col-ms-12 col-ms-6 col-lg-6 col-xl-6">
           <h1 className="logo">
             <Link to="/">
-              <img src={require("../../images/logo.png")} />
+              <img src={require("../../images/logo.png")} alt="logo" />
             </Link>
           </h1>
         </div>
@@ -122,7 +122,7 @@ const Header = (props) => {
               </li>
               <li>
                 <Link to="/login">
-                  <i class="fa fa-sign-in mr-1" aria-hidden="true"></i>
+                  <i className="fa fa-sign-in mr-1" aria-hidden="true"></i>
                   Login
                 </Link>
               </li>

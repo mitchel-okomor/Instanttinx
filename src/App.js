@@ -1,4 +1,9 @@
-import React, { createContext, useReducer, useEffect } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useReducer,
+  useEffect,
+} from "react";
 import "./App.css";
 import { Router, Switch, Route } from "react-router-dom";
 import { reducer, initialState } from "../src/components/reducers/reducer";
@@ -38,8 +43,7 @@ export const myContext = createContext();
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { user, cart } = state;
-  //Animation function
+  //Initialize animation function
   aos.init({
     offset: 120, // offset (in px) from the original trigger point
     delay: 100, // values from 0 to 3000, with step 50ms
@@ -51,15 +55,8 @@ function App() {
   });
   const id = localStorage.getItem("userId");
 
-  useEffect(() => {
-    checklogin();
-    fetchUser();
-    fetchTicketEvents();
-    dispatch({ type: SET_CART, payload: getCart() });
-  }, []);
-
   //fetch user info when app starts
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     const url = SERVER_URL + "/api/user/" + id;
 
     if (id) {
@@ -80,16 +77,15 @@ function App() {
       }
     }
     return;
-  };
+  }, [id]);
 
-  const fetchTicketEvents = async () => {
+  const fetchTicketEvents = useCallback(async () => {
     const url = SERVER_URL + "/api/events";
     dispatch({ type: SET_LOADING, payload: true });
     try {
       const response = await axios.get(url);
       if (response.status === 200) {
         const events = response.data;
-        console.log("Events: " + events);
         dispatch({ type: SET_TICKET_EVENTS, payload: events });
         dispatch({ type: SET_LOADING, payload: false });
       }
@@ -97,16 +93,23 @@ function App() {
       console.log(error);
       dispatch({ type: SET_LOADING, payload: false });
     }
-  };
+  }, []);
 
-  const getCart = () => {
+  const getCart = useCallback(() => {
     const cart = JSON.parse(localStorage.getItem("cart"));
     if (cart === "undefined" || !cart) {
       return [];
     } else {
       return cart;
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    checklogin();
+    fetchUser();
+    fetchTicketEvents();
+    dispatch({ type: SET_CART, payload: getCart() });
+  }, [fetchUser, fetchTicketEvents, getCart]);
 
   return (
     <myContext.Provider value={{ state, dispatch }}>

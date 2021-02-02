@@ -1,25 +1,15 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useCallback, useContext } from "react";
 import "./orders.css";
 import { myContext } from "../../App";
-import Loading from "../loading/Loading";
 import axios from "axios";
-import {
-  SERVER_URL,
-  SET_LOADING,
-  SET_USER_EVENTS,
-  SET_USER_ORDERS,
-} from "../helpers/constant";
+import { SERVER_URL, SET_LOADING, SET_USER_ORDERS } from "../helpers/constant";
 import { Link } from "react-router-dom";
 
 function Orders() {
   const { state, dispatch } = useContext(myContext);
-  const { loading, orders, ticketEvents } = state;
+  const { orders } = state;
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     const url = SERVER_URL + "/api/orders";
     dispatch({ type: SET_LOADING, payload: true });
     try {
@@ -39,12 +29,15 @@ function Orders() {
       dispatch({ type: SET_LOADING, payload: false });
       console.log(error);
     }
-  };
+  }, [dispatch]);
 
-  console.log("orders: " + orders);
+  useEffect(() => {
+    fetchOrders();
+  }, [fetchOrders]);
+
   if (orders || orders.length > 0) {
     return (
-      <table className="table table-bordered order">
+      <table className="table text-center table-bordered order">
         <thead>
           <tr>
             <th scope="col">Order Id</th>
@@ -62,7 +55,7 @@ function Orders() {
                 <td>
                   <ul>
                     {item.cart.map((ticket) => (
-                      <li>
+                      <li key={ticket.eventId}>
                         <Link to={""}>{ticket.eventId}</Link>
                       </li>
                     ))}
@@ -70,11 +63,13 @@ function Orders() {
                 </td>
 
                 <td className="font-weight-bold">
-                  {item.isPaid === true ? "paid" : "pending"}
+                  {item.isPaid ? "Paid" : "pending"}
                 </td>
                 <td>
-                  {item.isPaid === true ? (
-                    ""
+                  {item.isPaid ? (
+                    <Link to="" className="btn btn-success">
+                      View Payment
+                    </Link>
                   ) : (
                     <Link
                       to={`/payment/${item._id}`}

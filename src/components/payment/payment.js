@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "./payment.css";
-import { Link, Redirect } from "react-router-dom";
-import { SERVER_URL, SET_LOADING } from "../helpers/constant";
+import { Redirect } from "react-router-dom";
+import { SERVER_URL } from "../helpers/constant";
 import { myContext } from "../../App";
 import axios from "axios";
 
@@ -11,7 +11,9 @@ function Payment({ match }) {
   const { state } = useContext(myContext);
   const { user, orders } = state;
 
-  const current_order = orders.find((order) => (order.id = match.params.id));
+  const current_order = orders.find((order) => order._id === match.params.id);
+  console.log("checkingId: " + current_order.ref);
+
   //show or hide bank details
   const toggle_bank_details = () => {
     if (details === "hide") {
@@ -21,22 +23,36 @@ function Payment({ match }) {
 
   //initialize transaction to get a reference
   const pay = () => {
-    console.log(user);
-    const form = {
-      amount: current_order.amount * 100,
-      full_name: user.firstname + " " + user.lastname,
-      email: user.email,
-    };
-    const url = SERVER_URL + "/api/pay";
-    axios
-      .post(url, form)
-      .then((res) => {
-        console.log(res);
-        setTransaction({ transaction: res.data, amount: current_order.amount });
-      })
-      .catch((err) => {
-        console.log(err);
+    if (current_order.ref.length > 1) {
+      console.log("ref: " + current_order.ref);
+      setTransaction({
+        reference: current_order.ref,
+        amount: current_order.amount,
+        orderId: current_order._id,
       });
+    } else {
+      const form = {
+        amount: current_order.amount * 100,
+        first_name: user.firstname,
+        last_name: user.lastname,
+        email: user.email,
+        orderId: current_order.id,
+      };
+      const url = SERVER_URL + "/api/pay";
+      axios
+        .post(url, form)
+        .then((res) => {
+          console.log(res);
+          setTransaction({
+            reference: res.data.reference,
+            amount: current_order.amount,
+            orderId: current_order._id,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return transaction ? (
@@ -47,7 +63,7 @@ function Payment({ match }) {
         <div className="card-header text-center">PAY WITH</div>
         <div className="card-body">
           <div className="border p-3" onClick={pay}>
-            <i class="fa fa-credit-card" aria-hidden="true"></i>
+            <i class="fa fa-credit-card" aria-hidden={true}></i>
             <button className="btn">Card</button>
             <i
               class="fa fa-long-arrow-right float-right"
@@ -56,7 +72,7 @@ function Payment({ match }) {
           </div>
 
           <div className="border p-3">
-            <i class="fa fa-university " aria-hidden="true "></i>
+            <i class="fa fa-university " aria-hidden={true}></i>
             <button className="btn" onClick={toggle_bank_details}>
               Bank Transfer
             </button>

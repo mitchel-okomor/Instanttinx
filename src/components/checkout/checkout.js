@@ -6,26 +6,41 @@ import {
   SET_LOADING,
   SET_MESSAGE,
   SET_CART,
-  SET_USER_ORDERS,
 } from "../helpers/constant";
+import history from "../services/history";
+
 import Loading from "../loading/Loading";
 import "./checkout.css";
 import { Link } from "react-router-dom";
 
 function Checkout() {
   const { state, dispatch } = useContext(myContext);
-  const { cart, user, message } = state;
-  const firstname = user.firstname ? user.firstname.toUpperCase() : "";
-  const lastname = user.lastname ? user.lastname.toUpperCase() : "";
-  const userName = firstname + " " + lastname;
-  let initialVal = 0;
+  let { cart, user, message, loading } = state;
+  const firstname = user ? user.firstname.toUpperCase() : "";
+  const lastname = user ? user.lastname.toUpperCase() : "";
+  let userName = firstname + " " + lastname;
+
+  const handleChange = (e) => {
+    switch (e.target.name) {
+      case "name":
+        userName = e.target.user;
+        break;
+      case "email":
+        user.email = e.target.email;
+        break;
+      default:
+        user.phone = e.target.phone;
+    }
+    console.log("change: " + e.target.value);
+  };
   async function placeOrder() {
     const body = {
+      ref: "",
       userId: user._id,
       cart,
       amount: cart.reduce((acc, item) => {
         return acc + item.total;
-      }, initialVal),
+      }, 0),
     };
     const url = SERVER_URL + "/api/order";
     dispatch({ type: SET_LOADING, payload: true });
@@ -39,14 +54,10 @@ function Checkout() {
         const data = response.data.data;
         console.log("checkpout" + data);
         dispatch({ type: SET_LOADING, payload: false });
-        dispatch({ type: SET_USER_ORDERS, payload: data });
         dispatch({ type: SET_MESSAGE, payload: "Order submitted" });
-        setTimeout(() => {
-          dispatch({ type: SET_MESSAGE, payload: "" });
-        }, 3000);
-
         localStorage.removeItem("cart");
-        // history.push("/profile/order");
+        alert(message);
+        history.push("/profile");
       }
     } catch (error) {
       console.log(error);
@@ -87,9 +98,13 @@ function Checkout() {
     dispatch({ type: SET_CART, payload: modified });
   };
 
-  return (
+  return loading ? (
     <div className="checkout container mt-5">
-      <table class="table table-bordered">
+      <Loading />{" "}
+    </div>
+  ) : (
+    <div className="checkout container mt-5">
+      <table className="table table-bordered">
         <thead className="bg-light p-5">
           <tr>
             <th scope="col">#</th>
@@ -105,7 +120,7 @@ function Checkout() {
             const localQuantity = quantity;
             return (
               <tr key={index}>
-                <td scope="row">{index + 1}</td>
+                <td>{index + 1}</td>
                 <td>{title}</td>
                 <td>{price}</td>
                 <td>
@@ -130,19 +145,20 @@ function Checkout() {
                 <td>₦{total}</td>
                 <td>
                   <Link
+                    to=""
                     className="text-danger font-weight-bold"
                     onClick={() => {
                       removeitem(eventId);
                     }}
                   >
-                    <i class="fa fa-times" aria-hidden="true"></i>
+                    <i className="fa fa-times" aria-hidden="true"></i>
                   </Link>
                 </td>
               </tr>
             );
           })}
-          <tr scope="row" className="">
-            <td colspan="6 " className="text-center pt-4">
+          <tr className="">
+            <td colSpan="6 " className="text-center pt-4">
               {" "}
               <button className="btn btn-success">Update cart</button>
             </td>
@@ -158,21 +174,39 @@ function Checkout() {
               Name <span className="text-danger">*</span>
             </label>{" "}
             <br />
-            <input type="text" className="form-control" value={userName} />
+            <input
+              type="text"
+              className="form-control"
+              name="name"
+              value={userName}
+              onChange={handleChange}
+            />
           </div>
           <div>
             <label>
               Phone <span className="text-danger">*</span>
             </label>{" "}
             <br />
-            <input type="text" className="form-control" value={user.phone} />
+            <input
+              type="text"
+              className="form-control"
+              name="phone"
+              value={user ? user.phone : ""}
+              onChange={handleChange}
+            />
           </div>
           <div>
             <label>
               Email Address <span className="text-danger">*</span>
             </label>{" "}
             <br />
-            <input type="text" className="form-control" value={user.email} />
+            <input
+              type="text"
+              className="form-control"
+              name="email"
+              value={user ? user.email : ""}
+              onChange={handleChange}
+            />
           </div>
         </form>
         <div>
@@ -183,6 +217,7 @@ function Checkout() {
               <thead>
                 <tr>
                   <th scope="col">Product</th>
+                  <th scope="col">Quantity</th>
                   <th scope="col">Total</th>
                 </tr>
               </thead>
@@ -190,17 +225,23 @@ function Checkout() {
                 {cart.map(({ title, quantity, price, total }, index) => {
                   return (
                     <tr key={index}>
-                      <td>{title + " " + " X " + " " + quantity}</td>
+                      <td>{title}</td>
+                      <td>{quantity}</td>
                       <td>{total}</td>
                     </tr>
                   );
                 })}
-                <td className="font-weight-bold">Grand Total</td>
-                <td>
-                  {cart.reduce((acc, item) => {
-                    return acc + item.total;
-                  }, initialVal)}
-                </td>
+                <tr>
+                  <td className="font-weight-bold">Grand Total</td>
+                  <td></td>
+                  <td>
+                    <b>
+                      {cart.reduce((acc, item) => {
+                        return acc + item.total;
+                      }, 0)}
+                    </b>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
